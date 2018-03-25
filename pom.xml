@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <artifactId>roof</artifactId>
+        <groupId>org.roof</groupId>
+        <version>4.0.1-SNAPSHOT</version>
+    </parent>
+
+    <groupId>org.roof</groupId>
+    <artifactId>coupon</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>coupon-config</module>
+        <module>coupon-service</module>
+        <module>coupon-entity</module>
+        <module>coupon-web</module>
+        <module>coupon-wechat</module>
+    </modules>
+
+    <properties>
+        <coupon.version>1.0-SNAPSHOT</coupon.version>
+        <roof-version>4.0.1-SNAPSHOT</roof-version>
+        <spring-date-redis.version>1.8.4.RELEASE</spring-date-redis.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.roof</groupId>
+            <artifactId>roof-dataaccess-api</artifactId>
+            <version>${roof-version}</version>
+        </dependency>
+        <!-- UUID -->
+        <dependency>
+            <groupId>com.fasterxml.uuid</groupId>
+            <artifactId>java-uuid-generator</artifactId>
+            <version>3.1.3</version>
+        </dependency>
+
+    </dependencies>
+
+
+</project>
