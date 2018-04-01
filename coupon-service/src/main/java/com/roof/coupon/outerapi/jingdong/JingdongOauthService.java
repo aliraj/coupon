@@ -42,6 +42,7 @@ public class JingdongOauthService implements OauthService, InitializingBean {
 
     private CacheManager cacheManager;
     private Cache cache;
+    private JingdongClientManager jingdongClientManager;
 
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -148,5 +149,10 @@ public class JingdongOauthService implements OauthService, InitializingBean {
     @Autowired
     public void setCacheManager(@Qualifier("localCacheManager") CacheManager cacheManager) {
         this.cacheManager = cacheManager;
+    }
+
+    @Autowired
+    public void setJingdongClientManager(JingdongClientManager jingdongClientManager) {
+        this.jingdongClientManager = jingdongClientManager;
     }
 }
