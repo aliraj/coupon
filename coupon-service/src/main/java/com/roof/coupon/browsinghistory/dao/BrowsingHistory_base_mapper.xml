@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.roof.coupon.browsinghistory.dao">
+
+	<sql id="columns">
+		id, item_coupon_id, customer_id
+	</sql>
+
+	<sql id="columns_as">
+		id as id , item_coupon_id as itemCouponId , customer_id as customerId 
+	</sql>
+
+
+	<sql id="vals">
+		#{id}, #{itemCouponId}, #{customerId}
+	</sql>
+	<sql id="conds">
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="itemCouponId != null">
+			and item_coupon_id = #{itemCouponId}
+		</if>
+		<if test="customerId != null">
+			and customer_id = #{customerId}
+		</if>
+	</sql>
+
+	<insert id="saveBrowsingHistory" parameterType="com.roof.coupon.browsinghistory.entity.BrowsingHistory" useGeneratedKeys="true" keyProperty="id">
+		<selectKey keyProperty="id" resultType="Long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+		insert into c_browsing_history (<include refid="columns" />) 
+		values (<include refid="vals" />)
+	</insert>
+
+	<delete id="deleteBrowsingHistory">
+		delete from c_browsing_history
+		where id=#{id} 
+	</delete>
+
+	<delete id="deleteByExampleBrowsingHistory">
+		delete from c_browsing_history
+		where 1=1
+		<include refid="conds" />
+	</delete>
+
+	<update id="updateBrowsingHistory">
+		update c_browsing_history
+		<set>
+			id=#{id}, 
+			item_coupon_id=#{itemCouponId}, 
+			customer_id=#{customerId}
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateIgnoreNullBrowsingHistory">
+		update c_browsing_history
+		<set>
+		<if test="id != null">
+			id=#{id}, 
+		</if>
+		<if test="itemCouponId != null">
+			item_coupon_id=#{itemCouponId}, 
+		</if>
+		<if test="customerId != null">
+			customer_id=#{customerId}
+		</if>
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateByExampleBrowsingHistory">
+		update c_browsing_history
+		<set>
+			<if test="id != null">
+			id=#{id}, 
+			</if>
+			<if test="itemCouponId != null">
+			item_coupon_id=#{itemCouponId}, 
+			</if>
+			<if test="customerId != null">
+			customer_id=#{customerId}
+			</if>
+		</set>
+		where 1=1
+		<include refid="conds" />
+	</update>
+	
+	<select id="loadBrowsingHistory" resultType="com.roof.coupon.browsinghistory.entity.BrowsingHistoryVo">
+		select 
+		<include refid="columns_as"/>
+		from c_browsing_history
+		where id=#{id} 
+	</select>
+	
+	<select id="selectBrowsingHistory" resultType="com.roof.coupon.browsinghistory.entity.BrowsingHistoryVo">
+		select 
+		<include refid="columns_as"/>
+		from c_browsing_history
+		where 1=1
+		<include refid="conds" />
+	</select>
+</mapper>

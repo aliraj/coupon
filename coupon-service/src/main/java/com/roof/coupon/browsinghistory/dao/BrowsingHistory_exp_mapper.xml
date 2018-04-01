@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.roof.coupon.browsinghistory.dao">
+	<sql id="columnsAs">
+		t1.id as id, t1.item_coupon_id as itemCouponId, t1.customer_id as customerId
+	</sql>
+	
+	<select id="selectBrowsingHistoryPage" resultType="com.roof.coupon.browsinghistory.entity.BrowsingHistoryVo">
+		select
+		<include refid="columnsAs"/>
+		from
+		c_browsing_history t1
+		join
+		(SELECT
+		id
+		from
+		c_browsing_history
+		where 1=1
+		<include refid="conds" />
+		order by id desc
+		limit #{firstrownum}, #{limit}) t2
+		where t1.id = t2.id
+	</select>
+	
+	<select id="selectBrowsingHistoryCount" resultType="java.lang.Long">
+		select
+		count(id)
+		from c_browsing_history
+		where 1=1
+		<include refid="conds" />
+	</select>
+</mapper>

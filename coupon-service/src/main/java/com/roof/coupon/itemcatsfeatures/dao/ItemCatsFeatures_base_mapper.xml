@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.roof.coupon.itemcatsfeatures.dao">
+
+	<sql id="columns">
+		id, item_cats_cid, attr_key, attr_value
+	</sql>
+
+	<sql id="columns_as">
+		id as id , item_cats_cid as itemCatsCid , attr_key as attrKey , attr_value as attrValue 
+	</sql>
+
+
+	<sql id="vals">
+		#{id}, #{itemCatsCid}, #{attrKey}, #{attrValue}
+	</sql>
+	<sql id="conds">
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="itemCatsCid != null">
+			and item_cats_cid = #{itemCatsCid}
+		</if>
+		<if test="attrKey != null and attrKey != ''">
+			and attr_key = #{attrKey}
+		</if>
+		<if test="attrValue != null and attrValue != ''">
+			and attr_value = #{attrValue}
+		</if>
+	</sql>
+
+	<insert id="saveItemCatsFeatures" parameterType="com.roof.coupon.itemcatsfeatures.entity.ItemCatsFeatures" useGeneratedKeys="true" keyProperty="id">
+		<selectKey keyProperty="id" resultType="Long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+		insert into c_item_cats_features (<include refid="columns" />) 
+		values (<include refid="vals" />)
+	</insert>
+
+	<delete id="deleteItemCatsFeatures">
+		delete from c_item_cats_features
+		where id=#{id} 
+	</delete>
+
+	<delete id="deleteByExampleItemCatsFeatures">
+		delete from c_item_cats_features
+		where 1=1
+		<include refid="conds" />
+	</delete>
+
+	<update id="updateItemCatsFeatures">
+		update c_item_cats_features
+		<set>
+			id=#{id}, 
+			item_cats_cid=#{itemCatsCid}, 
+			attr_key=#{attrKey}, 
+			attr_value=#{attrValue}
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateIgnoreNullItemCatsFeatures">
+		update c_item_cats_features
+		<set>
+		<if test="id != null">
+			id=#{id}, 
+		</if>
+		<if test="itemCatsCid != null">
+			item_cats_cid=#{itemCatsCid}, 
+		</if>
+		<if test="attrKey != null and attrKey != ''">
+			attr_key=#{attrKey}, 
+		</if>
+		<if test="attrValue != null and attrValue != ''">
+			attr_value=#{attrValue}
+		</if>
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateByExampleItemCatsFeatures">
+		update c_item_cats_features
+		<set>
+			<if test="id != null">
+			id=#{id}, 
+			</if>
+			<if test="itemCatsCid != null">
+			item_cats_cid=#{itemCatsCid}, 
+			</if>
+			<if test="attrKey != null and attrKey != ''">
+			attr_key=#{attrKey}, 
+			</if>
+			<if test="attrValue != null and attrValue != ''">
+			attr_value=#{attrValue}
+			</if>
+		</set>
+		where 1=1
+		<include refid="conds" />
+	</update>
+	
+	<select id="loadItemCatsFeatures" resultType="com.roof.coupon.itemcatsfeatures.entity.ItemCatsFeaturesVo">
+		select 
+		<include refid="columns_as"/>
+		from c_item_cats_features
+		where id=#{id} 
+	</select>
+	
+	<select id="selectItemCatsFeatures" resultType="com.roof.coupon.itemcatsfeatures.entity.ItemCatsFeaturesVo">
+		select 
+		<include refid="columns_as"/>
+		from c_item_cats_features
+		where 1=1
+		<include refid="conds" />
+	</select>
+</mapper>
