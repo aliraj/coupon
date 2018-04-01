@@ -23,3 +23,6 @@ hs_err_pid*
 *.iml
 overlays/
 .idea/
+.DS_Store
+app/app_
+target/

@@ -26,10 +26,8 @@ public class ItemCats implements Serializable {
 	protected String isParent;// 该类目是否为父类目(即：该类目是否还有子类目)
 	@ApiModelProperty(value = "状态。可选值:normal(正常),deleted(删除)")
 	protected String status;// 状态。可选值:normal(正常),deleted(删除)
-	@ApiModelProperty(value = "排列序号，表示同级类目的展现次序，如数值相等则按名称次序排列。取值范围:大于零的整数
-")
+	@ApiModelProperty(value = "排列序号，表示同级类目的展现次序，如数值相等则按名称次序排列。取值范围:大于零的整数 ")
 	protected Integer sortOrder;// 排列序号，表示同级类目的展现次序，如数值相等则按名称次序排列。取值范围:大于零的整数
-
 	@ApiModelProperty(value = "是否度量衡类目")
 	protected String taosirCat;// 是否度量衡类目
 
