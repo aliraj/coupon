@@ -1,4 +1,4 @@
-package com.roof.coupon.outerapi;
+package com.roof.coupon.outerapi.entity;
 
 /**
  * @author liuxin

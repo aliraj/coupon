@@ -1,5 +1,7 @@
 package com.roof.coupon.outerapi;
 
+import com.roof.coupon.outerapi.entity.OauthToken;
+
 /**
  * 三方授权
  *

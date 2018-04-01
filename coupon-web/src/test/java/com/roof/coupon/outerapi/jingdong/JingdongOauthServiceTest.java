@@ -8,14 +8,12 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import static org.junit.Assert.*;
-
 /**
  * @author liuxin
  * @since 2018/4/1
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration({"classpath*:spring.xml"})
+@ContextConfiguration({"classpath*:spring-test.xml"})
 public class JingdongOauthServiceTest {
     private OauthService oauthService;
 

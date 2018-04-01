@@ -3,7 +3,7 @@ package com.roof.coupon.outerapi.jingdong;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.roof.coupon.outerapi.OauthService;
-import com.roof.coupon.outerapi.OauthToken;
+import com.roof.coupon.outerapi.entity.OauthToken;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.roof.commons.CustomizedPropertyPlaceholderConfigurer;
 import org.roof.httpclinet.HttpClientUtils;
