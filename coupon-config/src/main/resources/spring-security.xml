@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans:beans xmlns="http://www.springframework.org/schema/security"
-			 xmlns:beans="http://www.springframework.org/schema/beans"
-			 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-			 xmlns:util="http://www.springframework.org/schema/util"
-			 xmlns:oauth2="http://www.springframework.org/schema/security/oauth2"
-			 xsi:schemaLocation="http://www.springframework.org/schema/beans
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:util="http://www.springframework.org/schema/util"
+             xmlns:oauth2="http://www.springframework.org/schema/security/oauth2"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 		http://www.springframework.org/schema/security/oauth2
 		http://www.springframework.org/schema/security/spring-security-oauth2-2.0.xsd
@@ -14,13 +14,14 @@
  		http://www.springframework.org/schema/util/spring-util.xsd">
 
 
+    <http pattern="/token*" security="none"/>
+    <http pattern="/jingdong/oauth/**/*" security="none"/>
+    <http pattern="/swagger/**" security="none"/>
+    <http pattern="/v2/api-docs*" security="none"/>
 
-	<http pattern="/token*" security="none" />
-	<http pattern="/swagger/**" security="none" />
-	<http pattern="/v2/api-docs*" security="none" />
-
-	<http pattern="/fpa/pic/**" security="none" />
+    <http pattern="/fpa/pic/**" security="none"/>
     <!--activiti-->
+
 	<http pattern="/service/**" security="none" />
 	<http pattern="/editor-app/**" security="none" />
 	<http pattern="/druid/**" security="none" />
@@ -193,7 +194,6 @@
 
 
 -->
-
 
 
 </beans:beans>
