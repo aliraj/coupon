@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.roof.coupon.accesslog.dao">
+
+	<sql id="columns">
+		id, customer_id, oper_time, oper, params
+	</sql>
+
+	<sql id="columns_as">
+		id as id , customer_id as customerId , oper_time as operTime , oper as oper , params as params 
+	</sql>
+
+
+	<sql id="vals">
+		#{id}, #{customerId}, #{operTime}, #{oper}, #{params}
+	</sql>
+	<sql id="conds">
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="customerId != null">
+			and customer_id = #{customerId}
+		</if>
+		<if test="operTime != null">
+			and oper_time = #{operTime}
+		</if>
+		<if test="oper != null and oper != ''">
+			and oper = #{oper}
+		</if>
+		<if test="params != null and params != ''">
+			and params = #{params}
+		</if>
+	</sql>
+
+	<insert id="saveAccessLog" parameterType="com.roof.coupon.accesslog.entity.AccessLog" useGeneratedKeys="true" keyProperty="id">
+		<selectKey keyProperty="id" resultType="Long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+		insert into c_access_log (<include refid="columns" />) 
+		values (<include refid="vals" />)
+	</insert>
+
+	<delete id="deleteAccessLog">
+		delete from c_access_log
+		where id=#{id} 
+	</delete>
+
+	<delete id="deleteByExampleAccessLog">
+		delete from c_access_log
+		where 1=1
+		<include refid="conds" />
+	</delete>
+
+	<update id="updateAccessLog">
+		update c_access_log
+		<set>
+			id=#{id}, 
+			customer_id=#{customerId}, 
+			oper_time=#{operTime}, 
+			oper=#{oper}, 
+			params=#{params}
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateIgnoreNullAccessLog">
+		update c_access_log
+		<set>
+		<if test="id != null">
+			id=#{id}, 
+		</if>
+		<if test="customerId != null">
+			customer_id=#{customerId}, 
+		</if>
+		<if test="operTime != null">
+			oper_time=#{operTime}, 
+		</if>
+		<if test="oper != null and oper != ''">
+			oper=#{oper}, 
+		</if>
+		<if test="params != null and params != ''">
+			params=#{params}
+		</if>
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateByExampleAccessLog">
+		update c_access_log
+		<set>
+			<if test="id != null">
+			id=#{id}, 
+			</if>
+			<if test="customerId != null">
+			customer_id=#{customerId}, 
+			</if>
+			<if test="operTime != null">
+			oper_time=#{operTime}, 
+			</if>
+			<if test="oper != null and oper != ''">
+			oper=#{oper}, 
+			</if>
+			<if test="params != null and params != ''">
+			params=#{params}
+			</if>
+		</set>
+		where 1=1
+		<include refid="conds" />
+	</update>
+	
+	<select id="loadAccessLog" resultType="com.roof.coupon.accesslog.entity.AccessLogVo">
+		select 
+		<include refid="columns_as"/>
+		from c_access_log
+		where id=#{id} 
+	</select>
+	
+	<select id="selectAccessLog" resultType="com.roof.coupon.accesslog.entity.AccessLogVo">
+		select 
+		<include refid="columns_as"/>
+		from c_access_log
+		where 1=1
+		<include refid="conds" />
+	</select>
+</mapper>

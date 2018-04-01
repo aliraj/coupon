@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.roof.coupon.searchconfig.dao">
+
+	<sql id="columns">
+		id, title, subtitle, img
+	</sql>
+
+	<sql id="columns_as">
+		id as id , title as title , subtitle as subtitle , img as img 
+	</sql>
+
+
+	<sql id="vals">
+		#{id}, #{title}, #{subtitle}, #{img}
+	</sql>
+	<sql id="conds">
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="title != null and title != ''">
+			and title = #{title}
+		</if>
+		<if test="subtitle != null and subtitle != ''">
+			and subtitle = #{subtitle}
+		</if>
+		<if test="img != null and img != ''">
+			and img = #{img}
+		</if>
+	</sql>
+
+	<insert id="saveSearchConfig" parameterType="com.roof.coupon.searchconfig.entity.SearchConfig" useGeneratedKeys="true" keyProperty="id">
+		<selectKey keyProperty="id" resultType="Long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+		insert into c_search_config (<include refid="columns" />) 
+		values (<include refid="vals" />)
+	</insert>
+
+	<delete id="deleteSearchConfig">
+		delete from c_search_config
+		where id=#{id} 
+	</delete>
+
+	<delete id="deleteByExampleSearchConfig">
+		delete from c_search_config
+		where 1=1
+		<include refid="conds" />
+	</delete>
+
+	<update id="updateSearchConfig">
+		update c_search_config
+		<set>
+			id=#{id}, 
+			title=#{title}, 
+			subtitle=#{subtitle}, 
+			img=#{img}
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateIgnoreNullSearchConfig">
+		update c_search_config
+		<set>
+		<if test="id != null">
+			id=#{id}, 
+		</if>
+		<if test="title != null and title != ''">
+			title=#{title}, 
+		</if>
+		<if test="subtitle != null and subtitle != ''">
+			subtitle=#{subtitle}, 
+		</if>
+		<if test="img != null and img != ''">
+			img=#{img}
+		</if>
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateByExampleSearchConfig">
+		update c_search_config
+		<set>
+			<if test="id != null">
+			id=#{id}, 
+			</if>
+			<if test="title != null and title != ''">
+			title=#{title}, 
+			</if>
+			<if test="subtitle != null and subtitle != ''">
+			subtitle=#{subtitle}, 
+			</if>
+			<if test="img != null and img != ''">
+			img=#{img}
+			</if>
+		</set>
+		where 1=1
+		<include refid="conds" />
+	</update>
+	
+	<select id="loadSearchConfig" resultType="com.roof.coupon.searchconfig.entity.SearchConfigVo">
+		select 
+		<include refid="columns_as"/>
+		from c_search_config
+		where id=#{id} 
+	</select>
+	
+	<select id="selectSearchConfig" resultType="com.roof.coupon.searchconfig.entity.SearchConfigVo">
+		select 
+		<include refid="columns_as"/>
+		from c_search_config
+		where 1=1
+		<include refid="conds" />
+	</select>
+</mapper>

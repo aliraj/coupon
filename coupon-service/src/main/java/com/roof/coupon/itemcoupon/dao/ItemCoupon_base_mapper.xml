@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.roof.coupon.itemcoupon.dao">
+
+	<sql id="columns">
+		num_iid, title, small_images, shop_title, user_type, zk_final_price, nick, seller_id, volume, pict_url, item_url, coupon_total_count, commission_rate, coupon_info, category, coupon_remain_count, coupon_start_time, coupon_end_time, coupon_click_url, item_description
+	</sql>
+
+	<sql id="columns_as">
+		num_iid as numIid , title as title , small_images as smallImages , shop_title as shopTitle , user_type as userType , zk_final_price as zkFinalPrice , nick as nick , seller_id as sellerId , volume as volume , pict_url as pictUrl , item_url as itemUrl , coupon_total_count as couponTotalCount , commission_rate as commissionRate , coupon_info as couponInfo , category as category , coupon_remain_count as couponRemainCount , coupon_start_time as couponStartTime , coupon_end_time as couponEndTime , coupon_click_url as couponClickUrl , item_description as itemDescription 
+	</sql>
+
+
+	<sql id="vals">
+		#{numIid}, #{title}, #{smallImages}, #{shopTitle}, #{userType}, #{zkFinalPrice}, #{nick}, #{sellerId}, #{volume}, #{pictUrl}, #{itemUrl}, #{couponTotalCount}, #{commissionRate}, #{couponInfo}, #{category}, #{couponRemainCount}, #{couponStartTime}, #{couponEndTime}, #{couponClickUrl}, #{itemDescription}
+	</sql>
+	<sql id="conds">
+		<if test="numIid != null">
+			and num_iid = #{numIid}
+		</if>
+		<if test="title != null and title != ''">
+			and title = #{title}
+		</if>
+		<if test="smallImages != null and smallImages != ''">
+			and small_images = #{smallImages}
+		</if>
+		<if test="shopTitle != null and shopTitle != ''">
+			and shop_title = #{shopTitle}
+		</if>
+		<if test="userType != null">
+			and user_type = #{userType}
+		</if>
+		<if test="zkFinalPrice != null and zkFinalPrice != ''">
+			and zk_final_price = #{zkFinalPrice}
+		</if>
+		<if test="nick != null and nick != ''">
+			and nick = #{nick}
+		</if>
+		<if test="sellerId != null">
+			and seller_id = #{sellerId}
+		</if>
+		<if test="volume != null">
+			and volume = #{volume}
+		</if>
+		<if test="pictUrl != null and pictUrl != ''">
+			and pict_url = #{pictUrl}
+		</if>
+		<if test="itemUrl != null and itemUrl != ''">
+			and item_url = #{itemUrl}
+		</if>
+		<if test="couponTotalCount != null">
+			and coupon_total_count = #{couponTotalCount}
+		</if>
+		<if test="commissionRate != null and commissionRate != ''">
+			and commission_rate = #{commissionRate}
+		</if>
+		<if test="couponInfo != null and couponInfo != ''">
+			and coupon_info = #{couponInfo}
+		</if>
+		<if test="category != null">
+			and category = #{category}
+		</if>
+		<if test="couponRemainCount != null">
+			and coupon_remain_count = #{couponRemainCount}
+		</if>
+		<if test="couponStartTime != null and couponStartTime != ''">
+			and coupon_start_time = #{couponStartTime}
+		</if>
+		<if test="couponEndTime != null and couponEndTime != ''">
+			and coupon_end_time = #{couponEndTime}
+		</if>
+		<if test="couponClickUrl != null and couponClickUrl != ''">
+			and coupon_click_url = #{couponClickUrl}
+		</if>
+		<if test="itemDescription != null and itemDescription != ''">
+			and item_description = #{itemDescription}
+		</if>
+	</sql>
+
+	<insert id="saveItemCoupon" parameterType="com.roof.coupon.itemcoupon.entity.ItemCoupon" useGeneratedKeys="true" keyProperty="num_iid">
+		<selectKey keyProperty="num_iid" resultType="Long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+		insert into c_item_coupon (<include refid="columns" />) 
+		values (<include refid="vals" />)
+	</insert>
+
+	<delete id="deleteItemCoupon">
+		delete from c_item_coupon
+		where num_iid=#{num_iid} 
+	</delete>
+
+	<delete id="deleteByExampleItemCoupon">
+		delete from c_item_coupon
+		where 1=1
+		<include refid="conds" />
+	</delete>
+
+	<update id="updateItemCoupon">
+		update c_item_coupon
+		<set>
+			num_iid=#{numIid}, 
+			title=#{title}, 
+			small_images=#{smallImages}, 
+			shop_title=#{shopTitle}, 
+			user_type=#{userType}, 
+			zk_final_price=#{zkFinalPrice}, 
+			nick=#{nick}, 
+			seller_id=#{sellerId}, 
+			volume=#{volume}, 
+			pict_url=#{pictUrl}, 
+			item_url=#{itemUrl}, 
+			coupon_total_count=#{couponTotalCount}, 
+			commission_rate=#{commissionRate}, 
+			coupon_info=#{couponInfo}, 
+			category=#{category}, 
+			coupon_remain_count=#{couponRemainCount}, 
+			coupon_start_time=#{couponStartTime}, 
+			coupon_end_time=#{couponEndTime}, 
+			coupon_click_url=#{couponClickUrl}, 
+			item_description=#{itemDescription}
+		</set>
+		where num_iid=#{numIid} 
+	</update>
+
+	<update id="updateIgnoreNullItemCoupon">
+		update c_item_coupon
+		<set>
+		<if test="numIid != null">
+			num_iid=#{numIid}, 
+		</if>
+		<if test="title != null and title != ''">
+			title=#{title}, 
+		</if>
+		<if test="smallImages != null and smallImages != ''">
+			small_images=#{smallImages}, 
+		</if>
+		<if test="shopTitle != null and shopTitle != ''">
+			shop_title=#{shopTitle}, 
+		</if>
+		<if test="userType != null">
+			user_type=#{userType}, 
+		</if>
+		<if test="zkFinalPrice != null and zkFinalPrice != ''">
+			zk_final_price=#{zkFinalPrice}, 
+		</if>
+		<if test="nick != null and nick != ''">
+			nick=#{nick}, 
+		</if>
+		<if test="sellerId != null">
+			seller_id=#{sellerId}, 
+		</if>
+		<if test="volume != null">
+			volume=#{volume}, 
+		</if>
+		<if test="pictUrl != null and pictUrl != ''">
+			pict_url=#{pictUrl}, 
+		</if>
+		<if test="itemUrl != null and itemUrl != ''">
+			item_url=#{itemUrl}, 
+		</if>
+		<if test="couponTotalCount != null">
+			coupon_total_count=#{couponTotalCount}, 
+		</if>
+		<if test="commissionRate != null and commissionRate != ''">
+			commission_rate=#{commissionRate}, 
+		</if>
+		<if test="couponInfo != null and couponInfo != ''">
+			coupon_info=#{couponInfo}, 
+		</if>
+		<if test="category != null">
+			category=#{category}, 
+		</if>
+		<if test="couponRemainCount != null">
+			coupon_remain_count=#{couponRemainCount}, 
+		</if>
+		<if test="couponStartTime != null and couponStartTime != ''">
+			coupon_start_time=#{couponStartTime}, 
+		</if>
+		<if test="couponEndTime != null and couponEndTime != ''">
+			coupon_end_time=#{couponEndTime}, 
+		</if>
+		<if test="couponClickUrl != null and couponClickUrl != ''">
+			coupon_click_url=#{couponClickUrl}, 
+		</if>
+		<if test="itemDescription != null and itemDescription != ''">
+			item_description=#{itemDescription}
+		</if>
+		</set>
+		where num_iid=#{numIid} 
+	</update>
+
+	<update id="updateByExampleItemCoupon">
+		update c_item_coupon
+		<set>
+			<if test="numIid != null">
+			num_iid=#{numIid}, 
+			</if>
+			<if test="title != null and title != ''">
+			title=#{title}, 
+			</if>
+			<if test="smallImages != null and smallImages != ''">
+			small_images=#{smallImages}, 
+			</if>
+			<if test="shopTitle != null and shopTitle != ''">
+			shop_title=#{shopTitle}, 
+			</if>
+			<if test="userType != null">
+			user_type=#{userType}, 
+			</if>
+			<if test="zkFinalPrice != null and zkFinalPrice != ''">
+			zk_final_price=#{zkFinalPrice}, 
+			</if>
+			<if test="nick != null and nick != ''">
+			nick=#{nick}, 
+			</if>
+			<if test="sellerId != null">
+			seller_id=#{sellerId}, 
+			</if>
+			<if test="volume != null">
+			volume=#{volume}, 
+			</if>
+			<if test="pictUrl != null and pictUrl != ''">
+			pict_url=#{pictUrl}, 
+			</if>
+			<if test="itemUrl != null and itemUrl != ''">
+			item_url=#{itemUrl}, 
+			</if>
+			<if test="couponTotalCount != null">
+			coupon_total_count=#{couponTotalCount}, 
+			</if>
+			<if test="commissionRate != null and commissionRate != ''">
+			commission_rate=#{commissionRate}, 
+			</if>
+			<if test="couponInfo != null and couponInfo != ''">
+			coupon_info=#{couponInfo}, 
+			</if>
+			<if test="category != null">
+			category=#{category}, 
+			</if>
+			<if test="couponRemainCount != null">
+			coupon_remain_count=#{couponRemainCount}, 
+			</if>
+			<if test="couponStartTime != null and couponStartTime != ''">
+			coupon_start_time=#{couponStartTime}, 
+			</if>
+			<if test="couponEndTime != null and couponEndTime != ''">
+			coupon_end_time=#{couponEndTime}, 
+			</if>
+			<if test="couponClickUrl != null and couponClickUrl != ''">
+			coupon_click_url=#{couponClickUrl}, 
+			</if>
+			<if test="itemDescription != null and itemDescription != ''">
+			item_description=#{itemDescription}
+			</if>
+		</set>
+		where 1=1
+		<include refid="conds" />
+	</update>
+	
+	<select id="loadItemCoupon" resultType="com.roof.coupon.itemcoupon.entity.ItemCouponVo">
+		select 
+		<include refid="columns_as"/>
+		from c_item_coupon
+		where num_iid=#{numIid} 
+	</select>
+	
+	<select id="selectItemCoupon" resultType="com.roof.coupon.itemcoupon.entity.ItemCouponVo">
+		select 
+		<include refid="columns_as"/>
+		from c_item_coupon
+		where 1=1
+		<include refid="conds" />
+	</select>
+</mapper>

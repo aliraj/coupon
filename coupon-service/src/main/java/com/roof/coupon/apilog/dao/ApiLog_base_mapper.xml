@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.roof.coupon.apilog.dao">
+
+	<sql id="columns">
+		id, api_id, access_time, param, result
+	</sql>
+
+	<sql id="columns_as">
+		id as id , api_id as apiId , access_time as accessTime , param as param , result as result 
+	</sql>
+
+
+	<sql id="vals">
+		#{id}, #{apiId}, #{accessTime}, #{param}, #{result}
+	</sql>
+	<sql id="conds">
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="apiId != null and apiId != ''">
+			and api_id = #{apiId}
+		</if>
+		<if test="accessTime != null">
+			and access_time = #{accessTime}
+		</if>
+		<if test="param != null and param != ''">
+			and param = #{param}
+		</if>
+		<if test="result != null and result != ''">
+			and result = #{result}
+		</if>
+	</sql>
+
+	<insert id="saveApiLog" parameterType="com.roof.coupon.apilog.entity.ApiLog" useGeneratedKeys="true" keyProperty="id">
+		<selectKey keyProperty="id" resultType="Long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+		insert into c_api_log (<include refid="columns" />) 
+		values (<include refid="vals" />)
+	</insert>
+
+	<delete id="deleteApiLog">
+		delete from c_api_log
+		where id=#{id} 
+	</delete>
+
+	<delete id="deleteByExampleApiLog">
+		delete from c_api_log
+		where 1=1
+		<include refid="conds" />
+	</delete>
+
+	<update id="updateApiLog">
+		update c_api_log
+		<set>
+			id=#{id}, 
+			api_id=#{apiId}, 
+			access_time=#{accessTime}, 
+			param=#{param}, 
+			result=#{result}
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateIgnoreNullApiLog">
+		update c_api_log
+		<set>
+		<if test="id != null">
+			id=#{id}, 
+		</if>
+		<if test="apiId != null and apiId != ''">
+			api_id=#{apiId}, 
+		</if>
+		<if test="accessTime != null">
+			access_time=#{accessTime}, 
+		</if>
+		<if test="param != null and param != ''">
+			param=#{param}, 
+		</if>
+		<if test="result != null and result != ''">
+			result=#{result}
+		</if>
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateByExampleApiLog">
+		update c_api_log
+		<set>
+			<if test="id != null">
+			id=#{id}, 
+			</if>
+			<if test="apiId != null and apiId != ''">
+			api_id=#{apiId}, 
+			</if>
+			<if test="accessTime != null">
+			access_time=#{accessTime}, 
+			</if>
+			<if test="param != null and param != ''">
+			param=#{param}, 
+			</if>
+			<if test="result != null and result != ''">
+			result=#{result}
+			</if>
+		</set>
+		where 1=1
+		<include refid="conds" />
+	</update>
+	
+	<select id="loadApiLog" resultType="com.roof.coupon.apilog.entity.ApiLogVo">
+		select 
+		<include refid="columns_as"/>
+		from c_api_log
+		where id=#{id} 
+	</select>
+	
+	<select id="selectApiLog" resultType="com.roof.coupon.apilog.entity.ApiLogVo">
+		select 
+		<include refid="columns_as"/>
+		from c_api_log
+		where 1=1
+		<include refid="conds" />
+	</select>
+</mapper>
