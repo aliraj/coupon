@@ -1,6 +1,6 @@
 package com.roof.coupon.outerapi.jingdong;
 
-import com.roof.coupon.outerapi.OauthService;
+import com.roof.coupon.outerapi.ItemCatsService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,28 +16,16 @@ import org.springframework.test.context.web.WebAppConfiguration;
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration({"classpath*:spring.xml"})
-public class JingdongOauthServiceTest {
-    private OauthService oauthService;
+public class JingdongItemCatsServiceTest {
+    private ItemCatsService itemCatsService;
 
     @Test
-    public void save() {
-    }
-
-    @Test
-    public void load() {
-    }
-
-    @Test
-    public void getToken() {
-    }
-
-    @Test
-    public void refresh() {
-        oauthService.refresh();
+    public void queryByParent() {
+        itemCatsService.queryByParent(0);
     }
 
     @Autowired
-    public void setOauthService(@Qualifier("jingdongOauthService") OauthService oauthService) {
-        this.oauthService = oauthService;
+    public void setItemCatsService(@Qualifier("jingdongItemCatsService") ItemCatsService itemCatsService) {
+        this.itemCatsService = itemCatsService;
     }
 }
