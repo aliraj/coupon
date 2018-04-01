@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.roof.coupon.itemcats.dao">
+	<sql id="columnsAs">
+		t1.cid as cid, t1.parent_cid as parentCid, t1.name as name, t1.is_parent as isParent, t1.status as status, t1.sort_order as sortOrder, t1.taosir_cat as taosirCat
+	</sql>
+	
+	<select id="selectItemCatsPage" resultType="com.roof.coupon.itemcats.entity.ItemCatsVo">
+		select
+		<include refid="columnsAs"/>
+		from
+		c_item_cats t1
+		join
+		(SELECT
+		cid
+		from
+		c_item_cats
+		where 1=1
+		<include refid="conds" />
+		order by cid desc
+		limit #{firstrownum}, #{limit}) t2
+		where t1.cid = t2.cid
+	</select>
+	
+	<select id="selectItemCatsCount" resultType="java.lang.Long">
+		select
+		count(cid)
+		from c_item_cats
+		where 1=1
+		<include refid="conds" />
+	</select>
+</mapper>

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.roof.coupon.itemcats.dao">
+
+	<sql id="columns">
+		cid, parent_cid, name, is_parent, status, sort_order, taosir_cat
+	</sql>
+
+	<sql id="columns_as">
+		cid as cid , parent_cid as parentCid , name as name , is_parent as isParent , status as status , sort_order as sortOrder , taosir_cat as taosirCat 
+	</sql>
+
+
+	<sql id="vals">
+		#{cid}, #{parentCid}, #{name}, #{isParent}, #{status}, #{sortOrder}, #{taosirCat}
+	</sql>
+	<sql id="conds">
+		<if test="cid != null">
+			and cid = #{cid}
+		</if>
+		<if test="parentCid != null">
+			and parent_cid = #{parentCid}
+		</if>
+		<if test="name != null and name != ''">
+			and name = #{name}
+		</if>
+		<if test="isParent != null and isParent != ''">
+			and is_parent = #{isParent}
+		</if>
+		<if test="status != null and status != ''">
+			and status = #{status}
+		</if>
+		<if test="sortOrder != null">
+			and sort_order = #{sortOrder}
+		</if>
+		<if test="taosirCat != null and taosirCat != ''">
+			and taosir_cat = #{taosirCat}
+		</if>
+	</sql>
+
+	<insert id="saveItemCats" parameterType="com.roof.coupon.itemcats.entity.ItemCats" useGeneratedKeys="true" keyProperty="cid">
+		<selectKey keyProperty="cid" resultType="Long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+		insert into c_item_cats (<include refid="columns" />) 
+		values (<include refid="vals" />)
+	</insert>
+
+	<delete id="deleteItemCats">
+		delete from c_item_cats
+		where cid=#{cid} 
+	</delete>
+
+	<delete id="deleteByExampleItemCats">
+		delete from c_item_cats
+		where 1=1
+		<include refid="conds" />
+	</delete>
+
+	<update id="updateItemCats">
+		update c_item_cats
+		<set>
+			cid=#{cid}, 
+			parent_cid=#{parentCid}, 
+			name=#{name}, 
+			is_parent=#{isParent}, 
+			status=#{status}, 
+			sort_order=#{sortOrder}, 
+			taosir_cat=#{taosirCat}
+		</set>
+		where cid=#{cid} 
+	</update>
+
+	<update id="updateIgnoreNullItemCats">
+		update c_item_cats
+		<set>
+		<if test="cid != null">
+			cid=#{cid}, 
+		</if>
+		<if test="parentCid != null">
+			parent_cid=#{parentCid}, 
+		</if>
+		<if test="name != null and name != ''">
+			name=#{name}, 
+		</if>
+		<if test="isParent != null and isParent != ''">
+			is_parent=#{isParent}, 
+		</if>
+		<if test="status != null and status != ''">
+			status=#{status}, 
+		</if>
+		<if test="sortOrder != null">
+			sort_order=#{sortOrder}, 
+		</if>
+		<if test="taosirCat != null and taosirCat != ''">
+			taosir_cat=#{taosirCat}
+		</if>
+		</set>
+		where cid=#{cid} 
+	</update>
+
+	<update id="updateByExampleItemCats">
+		update c_item_cats
+		<set>
+			<if test="cid != null">
+			cid=#{cid}, 
+			</if>
+			<if test="parentCid != null">
+			parent_cid=#{parentCid}, 
+			</if>
+			<if test="name != null and name != ''">
+			name=#{name}, 
+			</if>
+			<if test="isParent != null and isParent != ''">
+			is_parent=#{isParent}, 
+			</if>
+			<if test="status != null and status != ''">
+			status=#{status}, 
+			</if>
+			<if test="sortOrder != null">
+			sort_order=#{sortOrder}, 
+			</if>
+			<if test="taosirCat != null and taosirCat != ''">
+			taosir_cat=#{taosirCat}
+			</if>
+		</set>
+		where 1=1
+		<include refid="conds" />
+	</update>
+	
+	<select id="loadItemCats" resultType="com.roof.coupon.itemcats.entity.ItemCatsVo">
+		select 
+		<include refid="columns_as"/>
+		from c_item_cats
+		where cid=#{cid} 
+	</select>
+	
+	<select id="selectItemCats" resultType="com.roof.coupon.itemcats.entity.ItemCatsVo">
+		select 
+		<include refid="columns_as"/>
+		from c_item_cats
+		where 1=1
+		<include refid="conds" />
+	</select>
+</mapper>

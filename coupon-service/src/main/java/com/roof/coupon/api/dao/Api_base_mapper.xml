@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.roof.coupon.api.dao">
+
+	<sql id="columns">
+		id, name, platform_id, version, url
+	</sql>
+
+	<sql id="columns_as">
+		id as id , name as name , platform_id as platformId , version as version , url as url 
+	</sql>
+
+
+	<sql id="vals">
+		#{id}, #{name}, #{platformId}, #{version}, #{url}
+	</sql>
+	<sql id="conds">
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="name != null and name != ''">
+			and name = #{name}
+		</if>
+		<if test="platformId != null">
+			and platform_id = #{platformId}
+		</if>
+		<if test="version != null and version != ''">
+			and version = #{version}
+		</if>
+		<if test="url != null and url != ''">
+			and url = #{url}
+		</if>
+	</sql>
+
+	<insert id="saveApi" parameterType="com.roof.coupon.api.entity.Api" useGeneratedKeys="true" keyProperty="id">
+		<selectKey keyProperty="id" resultType="Long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+		insert into c_api (<include refid="columns" />) 
+		values (<include refid="vals" />)
+	</insert>
+
+	<delete id="deleteApi">
+		delete from c_api
+		where id=#{id} 
+	</delete>
+
+	<delete id="deleteByExampleApi">
+		delete from c_api
+		where 1=1
+		<include refid="conds" />
+	</delete>
+
+	<update id="updateApi">
+		update c_api
+		<set>
+			id=#{id}, 
+			name=#{name}, 
+			platform_id=#{platformId}, 
+			version=#{version}, 
+			url=#{url}
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateIgnoreNullApi">
+		update c_api
+		<set>
+		<if test="id != null">
+			id=#{id}, 
+		</if>
+		<if test="name != null and name != ''">
+			name=#{name}, 
+		</if>
+		<if test="platformId != null">
+			platform_id=#{platformId}, 
+		</if>
+		<if test="version != null and version != ''">
+			version=#{version}, 
+		</if>
+		<if test="url != null and url != ''">
+			url=#{url}
+		</if>
+		</set>
+		where id=#{id} 
+	</update>
+
+	<update id="updateByExampleApi">
+		update c_api
+		<set>
+			<if test="id != null">
+			id=#{id}, 
+			</if>
+			<if test="name != null and name != ''">
+			name=#{name}, 
+			</if>
+			<if test="platformId != null">
+			platform_id=#{platformId}, 
+			</if>
+			<if test="version != null and version != ''">
+			version=#{version}, 
+			</if>
+			<if test="url != null and url != ''">
+			url=#{url}
+			</if>
+		</set>
+		where 1=1
+		<include refid="conds" />
+	</update>
+	
+	<select id="loadApi" resultType="com.roof.coupon.api.entity.ApiVo">
+		select 
+		<include refid="columns_as"/>
+		from c_api
+		where id=#{id} 
+	</select>
+	
+	<select id="selectApi" resultType="com.roof.coupon.api.entity.ApiVo">
+		select 
+		<include refid="columns_as"/>
+		from c_api
+		where 1=1
+		<include refid="conds" />
+	</select>
+</mapper>
