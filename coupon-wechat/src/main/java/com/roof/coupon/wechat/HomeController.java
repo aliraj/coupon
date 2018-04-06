@@ -21,7 +21,9 @@ public class HomeController {
         try {
             String addr = InetAddress.getLocalHost().getHostAddress();
             String port = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
+
             return "Hello Wold ip=" + addr+",prot:"+request.getLocalPort();
+
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
