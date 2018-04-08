@@ -97,6 +97,7 @@
             <artifactId>roof-httpclient</artifactId>
             <version>${roof-version}</version>
         </dependency>
+
         <dependency>
             <groupId>com.jd</groupId>
             <artifactId>open-api-sdk</artifactId>
