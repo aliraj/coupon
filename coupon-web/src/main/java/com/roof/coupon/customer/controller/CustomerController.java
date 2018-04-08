@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 import com.google.common.collect.Maps;
 import javax.servlet.http.HttpServletRequest;
+
+import com.roof.coupon.GenderEnum;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.roof.roof.dataaccess.api.Page;
@@ -27,6 +29,8 @@ public class CustomerController {
 	@RequestMapping(value = "customer/base", method = {RequestMethod.GET})
 	public @ResponseBody Result<Map<String,Object>> base(HttpServletRequest request) {
 		Map<String,Object> map = Maps.newHashMap();
+		GenderEnum[] genderEnums = GenderEnum.values();
+		map.put("genders",genderEnums);
 		return new Result(Result.SUCCESS, map);
 	}
 

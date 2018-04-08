@@ -11,6 +11,8 @@ import org.roof.spring.Result;
 import com.roof.coupon.api.entity.Api;
 import com.roof.coupon.api.entity.ApiVo;
 import com.roof.coupon.api.service.api.IApiService;
+import org.roof.web.dictionary.entity.Dictionary;
+import org.roof.web.dictionary.service.api.IDictionaryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -22,10 +24,16 @@ import org.springframework.web.bind.annotation.*;
 public class ApiController {
 	private IApiService apiService;
 
+	@Autowired
+	private IDictionaryService dictionaryService;
+
 	@ApiOperation(value = "获得外部接口列表基础信息")
 	@RequestMapping(value = "api/base", method = {RequestMethod.GET})
 	public @ResponseBody Result<Map<String,Object>> base(HttpServletRequest request) {
 		Map<String,Object> map = Maps.newHashMap();
+
+		List<Dictionary> affiliated_platforms = dictionaryService.findByType("AFFILIATED_PLATFORM");
+		map.put("affiliated_platforms",affiliated_platforms);
 		return new Result(Result.SUCCESS, map);
 	}
 
