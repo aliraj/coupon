@@ -1,6 +1,6 @@
 package com.roof.coupon.outerapi.jingdong;
 
-import com.roof.coupon.outerapi.ItemCatsService;
+import com.roof.coupon.outerapi.ItemCatsOuterApiService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,16 +16,16 @@ import org.springframework.test.context.web.WebAppConfiguration;
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration({"classpath*:spring.xml"})
-public class JingdongItemCatsServiceTest {
-    private ItemCatsService itemCatsService;
+public class JingdongItemCatsOuterApiServiceTest {
+    private ItemCatsOuterApiService itemCatsOuterApiService;
 
     @Test
     public void queryByParent() {
-        itemCatsService.queryByParent(0);
+        itemCatsOuterApiService.queryByParent(0);
     }
 
     @Autowired
-    public void setItemCatsService(@Qualifier("jingdongItemCatsService") ItemCatsService itemCatsService) {
-        this.itemCatsService = itemCatsService;
+    public void setItemCatsOuterApiService(@Qualifier("jingdongItemCatsService") ItemCatsOuterApiService itemCatsOuterApiService) {
+        this.itemCatsOuterApiService = itemCatsOuterApiService;
     }
 }

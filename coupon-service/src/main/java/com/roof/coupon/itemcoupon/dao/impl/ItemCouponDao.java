@@ -16,27 +16,33 @@ import org.springframework.stereotype.Service;
 
 import com.roof.coupon.itemcoupon.dao.api.IItemCouponDao;
 import com.roof.coupon.itemcoupon.entity.ItemCoupon;
+
 @Service
 public class ItemCouponDao extends AbstractDao implements IItemCouponDao {
-	
-	private PageQueryFactory<PageQuery> pageQueryFactory;
-	
-	public Page page(Page page, ItemCoupon itemCoupon) {
-		IPageQuery pageQuery = pageQueryFactory.getPageQuery(page,"selectItemCouponPage", "selectItemCouponCount");
-		//IPageQuery pageQuery = pageQueryFactory.getPageQuery(page,"selectItemCouponPage", null);
-		return pageQuery.select(itemCoupon);
-	}
-	
-	@Autowired
-	public void setPageQueryFactory(
-			@Qualifier("pageQueryFactory") PageQueryFactory<PageQuery> pageQueryFactory) {
-		this.pageQueryFactory = pageQueryFactory;
-	}
-	
-	@Autowired
-	public void setDaoSupport(
-			@Qualifier("roofDaoSupport") IDaoSupport daoSupport) {
-		this.daoSupport = daoSupport;
-	}
+
+    private PageQueryFactory<PageQuery> pageQueryFactory;
+
+    public Page page(Page page, ItemCoupon itemCoupon) {
+        IPageQuery pageQuery = pageQueryFactory.getPageQuery(page, "selectItemCouponPage", "selectItemCouponCount");
+        //IPageQuery pageQuery = pageQueryFactory.getPageQuery(page,"selectItemCouponPage", null);
+        return pageQuery.select(itemCoupon);
+    }
+
+    @Override
+    public int updateByOuterId(ItemCoupon itemCoupon) {
+        return this.update("updateIgnoreNullItemCoupon", itemCoupon);
+    }
+
+    @Autowired
+    public void setPageQueryFactory(
+            @Qualifier("pageQueryFactory") PageQueryFactory<PageQuery> pageQueryFactory) {
+        this.pageQueryFactory = pageQueryFactory;
+    }
+
+    @Autowired
+    public void setDaoSupport(
+            @Qualifier("roofDaoSupport") IDaoSupport daoSupport) {
+        this.daoSupport = daoSupport;
+    }
 
 }

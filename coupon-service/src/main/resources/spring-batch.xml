@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans
+        xmlns:beans="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!--<beans:bean id="jobRepository"-->
+    <!--class="org.springframework.batch.core.repository.support.JobRepositoryFactoryBean">-->
+    <!--<beans:property name="transactionManager" ref="transactionManager"/>-->
+    <!--<beans:property name="dataSource" ref="dataSource"/>-->
+    <!--</beans:bean>-->
+    <beans:bean id="jobRepository"
+                class="org.springframework.batch.core.repository.support.MapJobRepositoryFactoryBean">
+        <beans:property name="transactionManager" ref="transactionManager"/>
+    </beans:bean>
+
+    <beans:bean id="jobLauncher"
+                class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
+        <beans:property name="jobRepository" ref="jobRepository"/>
+        <!--<beans:property name="taskExecutor">-->
+        <!--<beans:bean class="org.springframework.core.task.SyncTaskExecutor"/>-->
+        <!--</beans:property>-->
+        <beans:property name="taskExecutor" ref="taskExecutor"/>
+    </beans:bean>
+
+    <beans:bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+        <beans:property name="corePoolSize" value="100"/>
+    </beans:bean>
+    <beans:import resource="job-taoke-coupon.xml"/>
+</beans:beans>

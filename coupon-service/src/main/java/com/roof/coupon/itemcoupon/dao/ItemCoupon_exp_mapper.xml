@@ -1,33 +1,100 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.roof.coupon.itemcoupon.dao">
-	<sql id="columnsAs">
-		t1.num_iid as numIid, t1.title as title, t1.small_images as smallImages, t1.shop_title as shopTitle, t1.user_type as userType, t1.zk_final_price as zkFinalPrice, t1.nick as nick, t1.seller_id as sellerId, t1.volume as volume, t1.pict_url as pictUrl, t1.item_url as itemUrl, t1.coupon_total_count as couponTotalCount, t1.commission_rate as commissionRate, t1.coupon_info as couponInfo, t1.category as category, t1.coupon_remain_count as couponRemainCount, t1.coupon_start_time as couponStartTime, t1.coupon_end_time as couponEndTime, t1.coupon_click_url as couponClickUrl, t1.item_description as itemDescription
+    <sql id="columnsAs">
+		t1.num_iid as numIid, t1.outer_id, t1.title as title, t1.small_images as smallImages, t1.shop_title as shopTitle, t1.user_type as userType, t1.zk_final_price as zkFinalPrice, t1.nick as nick, t1.seller_id as sellerId, t1.volume as volume, t1.pict_url as pictUrl, t1.item_url as itemUrl, t1.coupon_total_count as couponTotalCount, t1.commission_rate as commissionRate, t1.coupon_info as couponInfo, t1.category as category, t1.coupon_remain_count as couponRemainCount, t1.coupon_start_time as couponStartTime, t1.coupon_end_time as couponEndTime, t1.coupon_click_url as couponClickUrl, t1.item_description as itemDescription, t1.platform as platform
 	</sql>
-	
-	<select id="selectItemCouponPage" resultType="com.roof.coupon.itemcoupon.entity.ItemCouponVo">
-		select
-		<include refid="columnsAs"/>
-		from
-		c_item_coupon t1
-		join
-		(SELECT
-		num_iid
-		from
-		c_item_coupon
-		where 1=1
-		<include refid="conds" />
-		order by num_iid desc
-		limit #{firstrownum}, #{limit}) t2
-		where t1.num_iid = t2.num_iid
-	</select>
-	
-	<select id="selectItemCouponCount" resultType="java.lang.Long">
-		select
-		count(num_iid)
-		from c_item_coupon
-		where 1=1
-		<include refid="conds" />
-	</select>
+
+    <select id="selectItemCouponPage" resultType="com.roof.coupon.itemcoupon.entity.ItemCouponVo">
+        select
+        <include refid="columnsAs"/>
+        from
+        c_item_coupon t1
+        join
+        (SELECT
+        num_iid
+        from
+        c_item_coupon
+        where 1=1
+        <include refid="conds"/>
+        order by num_iid desc
+        limit #{firstrownum}, #{limit}) t2
+        where t1.num_iid = t2.num_iid
+    </select>
+
+    <select id="selectItemCouponCount" resultType="java.lang.Long">
+        select
+        count(num_iid)
+        from c_item_coupon
+        where 1=1
+        <include refid="conds"/>
+    </select>
+
+
+    <update id="updateByOuterIdItemCoupon">
+        update c_item_coupon
+        <set>
+            <if test="title != null and title != ''">
+                title=#{title},
+            </if>
+            <if test="smallImages != null and smallImages != ''">
+                small_images=#{smallImages},
+            </if>
+            <if test="shopTitle != null and shopTitle != ''">
+                shop_title=#{shopTitle},
+            </if>
+            <if test="userType != null">
+                user_type=#{userType},
+            </if>
+            <if test="zkFinalPrice != null and zkFinalPrice != ''">
+                zk_final_price=#{zkFinalPrice},
+            </if>
+            <if test="nick != null and nick != ''">
+                nick=#{nick},
+            </if>
+            <if test="sellerId != null">
+                seller_id=#{sellerId},
+            </if>
+            <if test="volume != null">
+                volume=#{volume},
+            </if>
+            <if test="pictUrl != null and pictUrl != ''">
+                pict_url=#{pictUrl},
+            </if>
+            <if test="itemUrl != null and itemUrl != ''">
+                item_url=#{itemUrl},
+            </if>
+            <if test="couponTotalCount != null">
+                coupon_total_count=#{couponTotalCount},
+            </if>
+            <if test="commissionRate != null and commissionRate != ''">
+                commission_rate=#{commissionRate},
+            </if>
+            <if test="couponInfo != null and couponInfo != ''">
+                coupon_info=#{couponInfo},
+            </if>
+            <if test="category != null">
+                category=#{category},
+            </if>
+            <if test="couponRemainCount != null">
+                coupon_remain_count=#{couponRemainCount},
+            </if>
+            <if test="couponStartTime != null and couponStartTime != ''">
+                coupon_start_time=#{couponStartTime},
+            </if>
+            <if test="couponEndTime != null and couponEndTime != ''">
+                coupon_end_time=#{couponEndTime},
+            </if>
+            <if test="couponClickUrl != null and couponClickUrl != ''">
+                coupon_click_url=#{couponClickUrl},
+            </if>
+            <if test="itemDescription != null and itemDescription != ''">
+                item_description=#{itemDescription}
+            </if>
+        </set>
+        where
+        outer_id = #{outerId}
+        and platform = #{platform}
+    </update>
 </mapper>

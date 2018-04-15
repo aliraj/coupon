@@ -30,6 +30,8 @@
                 <value>classpath:app-ds.properties</value>
                 <value>classpath:project.properties</value>
                 <value>classpath*:oauth.properties</value>
+                <value>classpath*:taoke.properties</value>
+                <value>classpath*:jingtuitui.properties</value>
             </list>
         </property>
     </bean>
@@ -37,15 +39,16 @@
     <bean id="httpClientUtils" class="org.roof.httpclinet.HttpClientUtils"></bean>
 
     <bean id="injectionApplicationContextListener" class="org.roof.spring.InjectionApplicationContextListener"/>
-<!--
-    <import resource="classpath:spring-mvc.xml"/>
--->
+    <!--
+        <import resource="classpath:spring-mvc.xml"/>
+    -->
     <import resource="classpath:spring-db-mybatis.xml"/>
     <import resource="classpath:spring-security.xml"/>
     <import resource="classpath:spring-security-bean.xml"/>
     <import resource="classpath:spring-redis.xml"/>
     <import resource="classpath:spring-cache-redis.xml"/>
     <import resource="classpath*:spring-cache-guava.xml"/>
+    <import resource="classpath*:spring-batch.xml"/>
 
     <import resource="spring-oauth2-service.xml"/>
 

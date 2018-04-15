@@ -10,7 +10,7 @@ import java.util.List;
  * @author liuxin
  * @since 2018/4/1
  */
-public interface ItemCatsService {
+public interface ItemCatsOuterApiService {
 
     List<ItemCats> queryByParent(long parentCid);
 

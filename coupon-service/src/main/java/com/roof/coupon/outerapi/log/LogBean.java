@@ -7,8 +7,10 @@ package com.roof.coupon.outerapi.log;
  * @since 2018/4/1
  */
 public class LogBean {
-    public static final String PLATFORM_JINGDONG = "jingdong";
-    public static final String PLATFORM_TAOBAO = "taobao";
+    public static final String PLATFORM_JINGDONG = "jingdong"; //京东
+    public static final String PLATFORM_TAOBAO = "taobao";// 淘宝
+    public static final String PLATFORM_TAOKE = "taoke"; //淘客基地
+    public static final String PLATFORM_JINGTUITUI = "jingtuitui"; //京推推
 
     private String platform;
     private String api;
