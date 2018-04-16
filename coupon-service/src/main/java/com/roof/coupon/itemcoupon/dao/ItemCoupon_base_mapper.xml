@@ -85,7 +85,7 @@
 
     <insert id="saveItemCoupon" parameterType="com.roof.coupon.itemcoupon.entity.ItemCoupon" useGeneratedKeys="true"
             keyProperty="num_iid">
-        <selectKey keyProperty="num_iid" resultType="Long" order="AFTER">
+        <selectKey keyProperty="numIid" keyColumn="num_iid" resultType="Long" order="AFTER">
             select last_insert_id()
         </selectKey>
         insert into c_item_coupon (<include refid="columns"/>)

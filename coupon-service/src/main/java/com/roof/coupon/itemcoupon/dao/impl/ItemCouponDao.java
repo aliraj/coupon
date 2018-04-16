@@ -30,7 +30,7 @@ public class ItemCouponDao extends AbstractDao implements IItemCouponDao {
 
     @Override
     public int updateByOuterId(ItemCoupon itemCoupon) {
-        return this.update("updateIgnoreNullItemCoupon", itemCoupon);
+        return this.update("updateByOuterIdItemCoupon", itemCoupon);
     }
 
     @Autowired

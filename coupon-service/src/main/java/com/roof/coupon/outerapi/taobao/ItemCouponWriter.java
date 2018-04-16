@@ -10,19 +10,18 @@ import java.util.List;
  * @author liuxin
  * @since 2018/4/15
  */
-public class ItemCouponWriter implements ItemWriter<List<List<ItemCoupon>>> {
+public class ItemCouponWriter implements ItemWriter<List<ItemCoupon>> {
     private IItemCouponService iItemCouponService;
 
-    @Override
-    public void write(List<? extends List<List<ItemCoupon>>> list) throws Exception {
-        for (List<List<ItemCoupon>> lists : list) {
-            for (List<ItemCoupon> itemCoupons : lists) {
-                iItemCouponService.saveOrUpdateByOuterId(itemCoupons);
-            }
-        }
-    }
 
     public void setiItemCouponService(IItemCouponService iItemCouponService) {
         this.iItemCouponService = iItemCouponService;
+    }
+
+    @Override
+    public void write(List<? extends List<ItemCoupon>> list) throws Exception {
+        for (List<ItemCoupon> lists : list) {
+            iItemCouponService.saveOrUpdateByOuterId(lists);
+        }
     }
 }

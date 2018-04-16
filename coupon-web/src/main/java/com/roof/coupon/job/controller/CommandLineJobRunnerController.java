@@ -1,7 +1,5 @@
 package com.roof.coupon.job.controller;
 
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang.time.DateFormatUtils;
 import org.roof.spring.CurrentSpringContext;
 import org.roof.spring.Result;
 import org.springframework.batch.core.Job;
@@ -21,8 +19,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.Date;
-
 /**
  * @author hzliuxin1 on 2017/9/6
  */
@@ -39,14 +35,14 @@ public class CommandLineJobRunnerController {
         String[] parameters = parameterStr.split(",");
         JobParameters jobParameters = jobParametersConverter.getJobParameters(StringUtils
                 .splitArrayElementsIntoProperties(parameters, "="));
-        String readFile = StringUtils.replace(jobParameters.getString("read_file"), "file:", "");
-        String resultFile = resultFile(readFile);
-        parameters = add(parameters, "result_file=" + resultFile);
-
-        int linesToSkip = getLineNumber(readFile);
-        parameters = add(parameters, "lines_to_skip=" + linesToSkip);
-
-        jobParameters = jobParametersConverter.getJobParameters(StringUtils.splitArrayElementsIntoProperties(parameters, "="));
+//        String readFile = StringUtils.replace(jobParameters.getString("read_file"), "file:", "");
+//        String resultFile = resultFile(readFile);
+//        parameters = add(parameters, "result_file=" + resultFile);
+//
+//        int linesToSkip = getLineNumber(readFile);
+//        parameters = add(parameters, "lines_to_skip=" + linesToSkip);
+//
+//        jobParameters = jobParametersConverter.getJobParameters(StringUtils.splitArrayElementsIntoProperties(parameters, "="));
         JobExecution jobExecution;
         try {
             jobExecution = jobLauncher.run(job, jobParameters);
@@ -55,28 +51,6 @@ public class CommandLineJobRunnerController {
             return new Result(Result.FAIL, e.getMessage());
         }
         return new Result(jobExecution.toString());
-    }
-
-    private String resultFile(String readFile) {
-        readFile = StringUtils.replace(readFile, "file:", "");
-        String date = DateFormatUtils.format(new Date(), "yyyy_MM_dd_HH_mm_ss");
-        return readFile + "." + date;
-    }
-
-    private String[] add(String[] array, String element) {
-        String[] result = new String[array.length + 1];
-        System.arraycopy(array, 0, result, 0, array.length);
-        result[result.length - 1] = element;
-        return result;
-    }
-
-    private int getLineNumber(String readFile) {
-        if (StringUtils.isEmpty(readFile)) {
-            return 0;
-        }
-        String path = FilenameUtils.getFullPath(readFile);
-        String name = FilenameUtils.getName(readFile);
-        return FileUtils.filesLineNumber(path, name + ".*");
     }
 
     @ResponseBody

@@ -36,7 +36,11 @@
         </property>
     </bean>
 
-    <bean id="httpClientUtils" class="org.roof.httpclinet.HttpClientUtils"></bean>
+    <bean id="httpClientUtils" class="org.roof.httpclinet.HttpClientUtils">
+        <property name="connectionRequestTimeout" value="20000"/>
+        <property name="connectTimeout" value="20000"/>
+        <property name="socketTimeout" value="20000"/>
+    </bean>
 
     <bean id="injectionApplicationContextListener" class="org.roof.spring.InjectionApplicationContextListener"/>
     <!--
