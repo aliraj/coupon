@@ -38,6 +38,9 @@
             <if test="title != null and title != ''">
                 title=#{title},
             </if>
+            <if test="platform != null and platform != ''">
+                platform=#{platform},
+            </if>
             <if test="smallImages != null and smallImages != ''">
                 small_images=#{smallImages},
             </if>

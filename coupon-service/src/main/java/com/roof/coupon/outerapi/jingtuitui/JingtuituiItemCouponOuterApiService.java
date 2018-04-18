@@ -14,8 +14,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -29,7 +31,7 @@ public class JingtuituiItemCouponOuterApiService extends AbstractCouponOuterApiS
 
     private static final String GET_GOODS_LIST
             = "http://japi.jingtuitui.com/api/get_goods_list?appid={0}&appkey={1}&num={2}&page={3}";
-    private static final int DEFAULT_PAGE_SIZE = 50;
+    private static final int DEFAULT_PAGE_SIZE = 100;
     private String jingtuituiAppId;
     private String jingtuituiAppKey;
 
@@ -40,7 +42,7 @@ public class JingtuituiItemCouponOuterApiService extends AbstractCouponOuterApiS
     }
 
     @Override
-    public Page query(Map<String, String> params, Page page) {
+    public Page query(Map<String, String> params, Page page) throws IOException {
         String url = MessageFormat.format(GET_GOODS_LIST, jingtuituiAppId, jingtuituiAppKey, DEFAULT_PAGE_SIZE, page.getCurrentPage());
         String respStr = doGet(url, GET_GOODS_LIST, params, LogBean.PLATFORM_JINGTUITUI, LOGGER);
         if (respStr == null) {
@@ -55,6 +57,13 @@ public class JingtuituiItemCouponOuterApiService extends AbstractCouponOuterApiS
         List<ItemCoupon> itemCoupons = toItemCoupon(taokeItems);
         page.setDataList(itemCoupons);
         return page;
+    }
+
+    @Override
+    public Page search(String keywords, Page page) throws IOException {
+        Map<String, String> params = new HashMap<>();
+        params.put("so", keywords);
+        return query(params, page);
     }
 
     private List<ItemCoupon> toItemCoupon(List<JingtuituiItem> jingtuituiItems) {

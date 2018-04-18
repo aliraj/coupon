@@ -11,6 +11,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import java.io.IOException;
+
 import static org.junit.Assert.*;
 
 /**
@@ -24,7 +26,7 @@ public class TaokeItemCouponOuterApiServiceTest {
     private ItemCouponOuterApiService itemCouponOuterApiService;
 
     @Test
-    public void query() {
+    public void query() throws IOException {
         Page page = new Page();
         page.setCurrentPage(1L);
         page = itemCouponOuterApiService.query(null, page);

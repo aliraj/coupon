@@ -15,7 +15,7 @@ import java.util.Map;
  * @since 2018/4/15
  */
 public abstract class AbstractCouponOuterApiService implements ItemCouponOuterApiService {
-    private HttpClientUtils httpClientUtils;
+    protected HttpClientUtils httpClientUtils;
 
     protected StringBuilder addParams(Map<String, String> params, String url) {
         StringBuilder builder = new StringBuilder(url);
@@ -30,19 +30,13 @@ public abstract class AbstractCouponOuterApiService implements ItemCouponOuterAp
         return builder;
     }
 
-    protected String doGet(String url, String api, Map<String, String> params,String pat, Logger logger) {
+    protected String doGet(String url, String api, Map<String, String> params, String platform, Logger logger) throws IOException {
         StringBuilder builder = addParams(params, url);
-        ResponseEntity<String> stringResponseEntity = null;
-        try {
-            stringResponseEntity = httpClientUtils.doGet(builder.toString());
-        } catch (IOException e) {
-            logger.error(e.getMessage(), e);
-            return null;
-        }
+        ResponseEntity<String> stringResponseEntity = httpClientUtils.doGet(builder.toString());
         if (stringResponseEntity == null) {
             return null;
         }
-        logger.info(JSON.toJSONString(new LogBean(LogBean.PLATFORM_TAOKE, api, params, stringResponseEntity.toString())));
+        logger.info(JSON.toJSONString(new LogBean(platform, api, params, stringResponseEntity.toString())));
         if (!stringResponseEntity.getStatusCode().is2xxSuccessful()) {
             return null;
         }

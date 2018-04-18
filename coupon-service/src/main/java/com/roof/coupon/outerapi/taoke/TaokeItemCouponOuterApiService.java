@@ -12,8 +12,10 @@ import org.roof.roof.dataaccess.api.Page;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +34,8 @@ public class TaokeItemCouponOuterApiService extends AbstractCouponOuterApiServic
     private static final String GET_GOODS_LINK = "http://api.tkjidi.com/getGoodsLink?appkey={0}&type={1}&page={2}";
     private static final String GET_GOODS_LINK_TYPE_LINGQUAN = "www_lingquan";
 
+    private static final String SEARCH_LINK = "http://api.tkjidi.com/checkWhole?appkey={0}&k={1}&page={2}";
+
     private String taokeAppKey;
 
     @Override
@@ -47,9 +51,24 @@ public class TaokeItemCouponOuterApiService extends AbstractCouponOuterApiServic
      * @return
      */
     @Override
-    public Page query(Map<String, String> params, Page page) {
+    public Page query(Map<String, String> params, Page page) throws IOException {
         String url = MessageFormat.format(GET_GOODS_LINK, taokeAppKey, GET_GOODS_LINK_TYPE_LINGQUAN, page.getCurrentPage());
         String respStr = doGet(url, GET_GOODS_LINK, params, LogBean.PLATFORM_TAOKE, LOGGER);
+        return createItemCouponsPage(respStr, page);
+    }
+
+    @Override
+    public Page search(String keywords, Page page) throws IOException {
+        String url = MessageFormat.format(SEARCH_LINK, taokeAppKey, keywords, page.getCurrentPage());
+        ResponseEntity<String> stringResponseEntity = httpClientUtils.doGet(url);
+        if (!stringResponseEntity.getStatusCode().is2xxSuccessful()) {
+            return page;
+        }
+        String respStr = stringResponseEntity.getBody();
+        return createItemCouponsPage(respStr, page);
+    }
+
+    private Page createItemCouponsPage(String respStr, Page page) {
         if (respStr == null) {
             return page;
         }
@@ -63,7 +82,6 @@ public class TaokeItemCouponOuterApiService extends AbstractCouponOuterApiServic
         page.setDataList(itemCoupons);
         return page;
     }
-
 
     private List<ItemCoupon> toItemCoupon(List<TaokeItem> taokeItems) {
         List<ItemCoupon> result = new ArrayList<>(taokeItems.size());

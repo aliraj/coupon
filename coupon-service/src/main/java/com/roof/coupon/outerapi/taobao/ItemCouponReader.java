@@ -26,7 +26,11 @@ public class ItemCouponReader implements ItemReader<List<ItemCoupon>> {
         page.setCurrentPage(currentPage);
         page = itemCouponOuterApiService.query(params, page);
         currentPage++;
-        return (List<ItemCoupon>) page.getDataList();
+        List<ItemCoupon> result = (List<ItemCoupon>) page.getDataList();
+        if (result == null || result.size() == 0) {
+            return null;
+        }
+        return result;
     }
 
     public void setItemCouponOuterApiService(ItemCouponOuterApiService itemCouponOuterApiService) {
