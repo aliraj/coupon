@@ -1,4 +1,4 @@
-package com.roof.coupon.main.controller;
+package com.roof.coupon.main.controller.controller;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;

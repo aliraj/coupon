@@ -1,6 +1,6 @@
 package com.roof.coupon.outerapi.jingdong;
 
-import com.roof.coupon.outerapi.ItemCatsService;
+//import com.roof.coupon.outerapi.ItemCatsService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -22,14 +22,14 @@ import java.io.FileNotFoundException;
 @ContextConfiguration({"classpath*:spring.xml"})
 public class JingdongItemCatsServiceTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(JingdongItemCatsServiceTest.class);
-    @Autowired
-    private ItemCatsService itemCatsService;
-
-    @Test
-    public void queryByParent() {
-        LOGGER.error("s");
-        itemCatsService.queryByParent(0);
-    }
+//    @Autowired
+//    private ItemCatsService itemCatsService;
+//
+//    @Test
+//    public void queryByParent() {
+//        LOGGER.error("s");
+//        itemCatsService.queryByParent(0);
+//    }
 
 
 

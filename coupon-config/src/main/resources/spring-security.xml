@@ -21,6 +21,8 @@
 
     <http pattern="/fpa/pic/**" security="none"/>
     <!--activiti-->
+	<http pattern="/coupon/**" security="none" />
+
 
 	<http pattern="/service/**" security="none" />
 	<http pattern="/editor-app/**" security="none" />

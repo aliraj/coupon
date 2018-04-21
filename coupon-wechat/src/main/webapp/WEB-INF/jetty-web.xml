@@ -6,7 +6,7 @@
 			<Arg>
 				<Array type="java.lang.String">
 					<!--<Item>E:\Users\hc_workspace_2016\webc</Item>-->
-					<Item>/Users/apple/roof/workspace/workspace-git-fpa/coupon/coupon-web/src/main/webapp</Item>
+					<Item>/Users/apple/roof/workspace/workspace-git-fpa/coupon/coupon-wechat/src/main/webapp</Item>
 					<!--<Item>E:\git\roof\roof-web-base\roof-web-base-webapp\src\main\webapp</Item>-->
 				</Array>
 			</Arg>
