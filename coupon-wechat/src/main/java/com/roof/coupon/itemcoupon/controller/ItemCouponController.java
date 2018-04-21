@@ -5,6 +5,8 @@ import com.roof.coupon.accesslog.service.api.IAccessLogService;
 import com.roof.coupon.itemcoupon.entity.ItemCoupon;
 import com.roof.coupon.itemcoupon.entity.ItemCouponVo;
 import com.roof.coupon.itemcoupon.service.api.IItemCouponService;
+import com.roof.coupon.searchconfig.entity.SearchConfig;
+import com.roof.coupon.searchconfig.service.api.ISearchConfigService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.roof.roof.dataaccess.api.Page;
@@ -33,12 +35,23 @@ public class ItemCouponController {
     @Autowired
     private IAccessLogService accessLogService;
 
+    @Autowired
+    private ISearchConfigService searchConfigService;
+
     @ApiOperation(value = "获得商品优惠券分页列表")
     @RequestMapping(value = "itemcoupon/list", method = {RequestMethod.GET})
     public @ResponseBody
     Result<Page> list(ItemCoupon itemCoupon, HttpServletRequest request) {
         Page page = PageUtils.createPage(request);
         page = itemCouponService.page(page, itemCoupon);
+        return new Result(Result.SUCCESS, page);
+    }
+
+    @ApiOperation(value = "获得搜索配置分页列表")
+    @RequestMapping(value = "searchconfig", method = {RequestMethod.GET})
+    public @ResponseBody Result<Page> list(SearchConfig searchConfig, HttpServletRequest request) {
+        Page page = PageUtils.createPage(request);
+        page = searchConfigService.page(page, searchConfig);
         return new Result(Result.SUCCESS, page);
     }
 
