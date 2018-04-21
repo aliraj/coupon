@@ -39,7 +39,7 @@ public class ItemCouponController {
     private ISearchConfigService searchConfigService;
 
     @ApiOperation(value = "获得商品优惠券分页列表")
-    @RequestMapping(value = "itemcoupon/list", method = {RequestMethod.GET})
+    @RequestMapping(value = "itemcoupon/list", method = {RequestMethod.POST})
     public @ResponseBody
     Result<Page> list(ItemCoupon itemCoupon, HttpServletRequest request) {
         Page page = PageUtils.createPage(request);
