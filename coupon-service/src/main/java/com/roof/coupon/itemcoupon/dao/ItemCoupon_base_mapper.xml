@@ -65,10 +65,14 @@
 			and coupon_remain_count = #{couponRemainCount}
 		</if>
 		<if test="couponStartTime != null and couponStartTime != ''">
-			and coupon_start_time = #{couponStartTime}
+			<![CDATA[
+			and coupon_start_time >= #{couponStartTime}
+			]]>
 		</if>
 		<if test="couponEndTime != null and couponEndTime != ''">
-			and coupon_end_time = #{couponEndTime}
+			<![CDATA[
+			and coupon_end_time <= #{couponEndTime}
+			]]>
 		</if>
 		<if test="couponClickUrl != null and couponClickUrl != ''">
 			and coupon_click_url = #{couponClickUrl}

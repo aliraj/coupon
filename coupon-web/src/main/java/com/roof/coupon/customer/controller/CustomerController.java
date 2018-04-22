@@ -36,8 +36,15 @@ public class CustomerController {
 
 	@ApiOperation(value = "获得客户分页列表")
     @RequestMapping(value = "customer", method = {RequestMethod.GET})
-    public @ResponseBody Result<Page> list(Customer customer, HttpServletRequest request) {
+    public @ResponseBody Result<Page> list(CustomerVo customer, HttpServletRequest request) {
 	    Page page = PageUtils.createPage(request);
+		List<String> area = customer.getArea();
+		if (area!=null && area.size() > 0) {
+			customer.setProvince(area.get(0));
+		}
+		if (area!=null && area.size() > 1) {
+			customer.setCity(area.get(1));
+		}
 	    page = customerService.page(page, customer);
 	    return new Result(Result.SUCCESS, page);
 	}

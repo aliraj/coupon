@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Map;
 import com.google.common.collect.Maps;
 import javax.servlet.http.HttpServletRequest;
+
+import com.roof.coupon.api.entity.ApiVo;
+import com.roof.coupon.api.service.api.IApiService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.roof.roof.dataaccess.api.Page;
@@ -22,11 +25,15 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("coupon")
 public class ApiLogController {
 	private IApiLogService apiLogService;
+	@Autowired
+	private IApiService apiService;
 
 	@ApiOperation(value = "获得接口日志基础信息")
 	@RequestMapping(value = "apilog/base", method = {RequestMethod.GET})
 	public @ResponseBody Result<Map<String,Object>> base(HttpServletRequest request) {
 		Map<String,Object> map = Maps.newHashMap();
+		List<ApiVo> apiList = apiService.selectForList(new com.roof.coupon.api.entity.Api());
+		map.put("apiList",apiList);
 		return new Result(Result.SUCCESS, map);
 	}
 

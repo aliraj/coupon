@@ -4,6 +4,10 @@ import java.util.List;
 import java.util.Map;
 import com.google.common.collect.Maps;
 import javax.servlet.http.HttpServletRequest;
+
+import com.roof.coupon.itemcats.entity.ItemCats;
+import com.roof.coupon.itemcats.entity.ItemCatsVo;
+import com.roof.coupon.itemcats.service.api.IItemCatsService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.roof.roof.dataaccess.api.Page;
@@ -23,10 +27,15 @@ import org.springframework.web.bind.annotation.*;
 public class ItemCouponController {
 	private IItemCouponService itemCouponService;
 
+	@Autowired
+	private IItemCatsService iItemCatsService;
+
 	@ApiOperation(value = "获得商品优惠券基础信息")
 	@RequestMapping(value = "itemcoupon/base", method = {RequestMethod.GET})
 	public @ResponseBody Result<Map<String,Object>> base(HttpServletRequest request) {
 		Map<String,Object> map = Maps.newHashMap();
+		List<ItemCatsVo> itemcats = iItemCatsService.selectForList(new ItemCats());
+		map.put("itemcats",itemcats);
 		return new Result(Result.SUCCESS, map);
 	}
 

@@ -2,6 +2,11 @@ package com.roof.coupon.customer.service.impl;
 
 import java.io.Serializable;
 import java.util.List;
+
+import com.roof.coupon.area.entity.Area;
+import com.roof.coupon.area.entity.AreaVo;
+import com.roof.coupon.area.service.api.IAreaService;
+import org.apache.commons.lang3.StringUtils;
 import org.roof.roof.dataaccess.api.Page;
 import com.roof.coupon.customer.dao.api.ICustomerDao;
 import com.roof.coupon.customer.entity.Customer;
@@ -14,6 +19,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class CustomerService implements ICustomerService {
 	private ICustomerDao customerDao;
+
+	@Autowired
+	private IAreaService areaService;
 
 	public Serializable save(Customer customer){
 		return customerDao.save(customer);
@@ -52,7 +60,23 @@ public class CustomerService implements ICustomerService {
 	}
 	
 	public Page page(Page page, Customer customer) {
-		return customerDao.page(page, customer);
+		Page customerPage = customerDao.page(page, customer);
+		List<CustomerVo> customerVoList = (List<CustomerVo>) customerPage.getDataList();
+		for (CustomerVo customerVo : customerVoList){
+			Area area = new Area();
+			if(StringUtils.isNotEmpty(customerVo.getProvince())){
+				area.setProvince(customerVo.getProvince());
+				area.setCity(customerVo.getCity());
+				AreaVo areaVo = areaService.selectForObject(area);
+				if(areaVo != null){
+					customerVo.setCity(areaVo.getCityCn());
+					customerVo.setProvince(areaVo.getProvinceCn());
+					customerVo.setCountry(areaVo.getNationCn());
+				}
+			}
+		}
+		customerPage.setDataList(customerVoList);
+		return customerPage;
 	}
 
 	@Autowired

@@ -19,9 +19,9 @@
     <http pattern="/swagger/**" security="none"/>
     <http pattern="/v2/api-docs*" security="none"/>
 
-    <http pattern="/fpa/pic/**" security="none"/>
+    <http pattern="/coupon/pic/**" security="none"/>
     <!--activiti-->
-	<http pattern="/coupon/**" security="none" />
+
 
 
 	<http pattern="/service/**" security="none" />

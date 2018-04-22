@@ -37,9 +37,9 @@
     <bean id="httpClientUtils" class="org.roof.httpclinet.HttpClientUtils"></bean>
 
     <bean id="injectionApplicationContextListener" class="org.roof.spring.InjectionApplicationContextListener"/>
-<!--
+
     <import resource="classpath:spring-mvc.xml"/>
--->
+
     <import resource="classpath:spring-db-mybatis.xml"/>
     <import resource="classpath:spring-security.xml"/>
     <import resource="classpath:spring-security-bean.xml"/>

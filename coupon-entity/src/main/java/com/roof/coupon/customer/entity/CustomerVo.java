@@ -10,6 +10,7 @@ import java.util.List;
 public class CustomerVo extends Customer {
 
 	private List<CustomerVo> customerList;
+	private List<String> area;
 
 	public CustomerVo() {
 		super();
@@ -28,4 +29,11 @@ public class CustomerVo extends Customer {
 		this.customerList = customerList;
 	}
 
+	public List<String> getArea() {
+		return area;
+	}
+
+	public void setArea(List<String> area) {
+		this.area = area;
+	}
 }
