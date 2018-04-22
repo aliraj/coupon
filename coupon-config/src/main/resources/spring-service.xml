@@ -46,10 +46,6 @@
     <import resource="classpath:spring-redis.xml"/>
     <import resource="classpath:spring-cache-redis.xml"/>
     <import resource="classpath*:spring-cache-guava.xml"/>
-
-
-
-
     <import resource="spring-fileupload.xml"/>
 
 

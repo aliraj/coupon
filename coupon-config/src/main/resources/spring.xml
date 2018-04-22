@@ -53,6 +53,7 @@
     <import resource="classpath:spring-cache-redis.xml"/>
     <import resource="classpath*:spring-cache-guava.xml"/>
     <import resource="classpath*:spring-batch.xml"/>
+    <import resource="classpath*:spring-coupon.xml"/>
 
     <import resource="spring-oauth2-service.xml"/>
 

@@ -65,7 +65,22 @@ public class TaokeItemCouponOuterApiService extends AbstractCouponOuterApiServic
             return page;
         }
         String respStr = stringResponseEntity.getBody();
-        return createItemCouponsPage(respStr, page);
+        return createItemCouponsPage2(respStr, page);
+    }
+
+    private Page createItemCouponsPage2(String respStr, Page page) {
+        if (respStr == null) {
+            return page;
+        }
+        JSONObject jsonObject = JSON.parseObject(respStr);
+        if (!"200".equals(jsonObject.getString("status"))) {
+            return page;
+        }
+        JSONArray data = jsonObject.getJSONObject("data").getJSONArray("data");
+        List<TaokeItem> taokeItems = data.toJavaList(TaokeItem.class);
+        List<ItemCoupon> itemCoupons = toItemCoupon(taokeItems);
+        page.setDataList(itemCoupons);
+        return page;
     }
 
     private Page createItemCouponsPage(String respStr, Page page) {
