@@ -3,9 +3,10 @@ package com.roof.coupon.outerapi.taoke;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.roof.coupon.api.entity.Api;
+import com.roof.coupon.apilog.entity.ApiLog;
 import com.roof.coupon.itemcoupon.entity.ItemCoupon;
 import com.roof.coupon.outerapi.AbstractCouponOuterApiService;
-import com.roof.coupon.outerapi.log.LogBean;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.roof.commons.CustomizedPropertyPlaceholderConfigurer;
 import org.roof.roof.dataaccess.api.Page;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -31,7 +33,7 @@ import java.util.Map;
 public class TaokeItemCouponOuterApiService extends AbstractCouponOuterApiService implements InitializingBean {
     private static final Logger LOGGER = LoggerFactory.getLogger(TaokeItemCouponOuterApiService.class);
 
-    private static final String GET_GOODS_LINK = "http://api.tkjidi.com/getGoodsLink?appkey={0}&type={1}&page={2}";
+    private static final String GET_GOODS_LINK = "http://api.tkjidi.com/getGoodsLink";
     private static final String GET_GOODS_LINK_TYPE_LINGQUAN = "www_lingquan";
 
     private static final String SEARCH_LINK = "http://api.tkjidi.com/checkWhole?appkey={0}&k={1}&page={2}";
@@ -52,8 +54,13 @@ public class TaokeItemCouponOuterApiService extends AbstractCouponOuterApiServic
      */
     @Override
     public Page query(Map<String, String> params, Page page) throws IOException {
-        String url = MessageFormat.format(GET_GOODS_LINK, taokeAppKey, GET_GOODS_LINK_TYPE_LINGQUAN, page.getCurrentPage());
-        String respStr = doGet(url, GET_GOODS_LINK, params, LogBean.PLATFORM_TAOKE, LOGGER);
+        if (params == null) {
+            params = new HashMap<>();
+        }
+        params.put("appkey", taokeAppKey);
+        params.put("type", GET_GOODS_LINK_TYPE_LINGQUAN);
+        params.put("page", String.valueOf(page.getCurrentPage()));
+        String respStr = doGet(GET_GOODS_LINK, params);
         return createItemCouponsPage(respStr, page);
     }
 
@@ -117,7 +124,7 @@ public class TaokeItemCouponOuterApiService extends AbstractCouponOuterApiServic
             itemCoupon.setCouponEndTime(taokeItem.getQuan_expired_time());
             itemCoupon.setCouponClickUrl(taokeItem.getQuan_link());
             itemCoupon.setItemDescription(taokeItem.getQuan_guid_content());
-            itemCoupon.setPlatform(LogBean.PLATFORM_JINGTUITUI);
+            itemCoupon.setPlatform(ApiLog.PLATFORM_JINGTUITUI);
             result.add(itemCoupon);
         }
         return result;

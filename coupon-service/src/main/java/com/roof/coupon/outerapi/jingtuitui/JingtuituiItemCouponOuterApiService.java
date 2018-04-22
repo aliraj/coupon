@@ -3,9 +3,9 @@ package com.roof.coupon.outerapi.jingtuitui;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.roof.coupon.apilog.entity.ApiLog;
 import com.roof.coupon.itemcoupon.entity.ItemCoupon;
 import com.roof.coupon.outerapi.AbstractCouponOuterApiService;
-import com.roof.coupon.outerapi.log.LogBean;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.roof.commons.CustomizedPropertyPlaceholderConfigurer;
 import org.roof.roof.dataaccess.api.Page;
@@ -15,7 +15,6 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,8 +28,7 @@ import java.util.Map;
 public class JingtuituiItemCouponOuterApiService extends AbstractCouponOuterApiService implements InitializingBean {
     private static final Logger LOGGER = LoggerFactory.getLogger(JingtuituiItemCouponOuterApiService.class);
 
-    private static final String GET_GOODS_LIST
-            = "http://japi.jingtuitui.com/api/get_goods_list?appid={0}&appkey={1}&num={2}&page={3}";
+    private static final String GET_GOODS_LIST = "http://japi.jingtuitui.com/api/get_goods_list";
     private static final int DEFAULT_PAGE_SIZE = 100;
     private String jingtuituiAppId;
     private String jingtuituiAppKey;
@@ -43,8 +41,15 @@ public class JingtuituiItemCouponOuterApiService extends AbstractCouponOuterApiS
 
     @Override
     public Page query(Map<String, String> params, Page page) throws IOException {
-        String url = MessageFormat.format(GET_GOODS_LIST, jingtuituiAppId, jingtuituiAppKey, DEFAULT_PAGE_SIZE, page.getCurrentPage());
-        String respStr = doGet(url, GET_GOODS_LIST, params, LogBean.PLATFORM_JINGTUITUI, LOGGER);
+        if (params == null) {
+            params = new HashMap<>();
+        }
+        params.put("appid", jingtuituiAppId);
+        params.put("appkey", jingtuituiAppKey);
+        params.put("num", String.valueOf(DEFAULT_PAGE_SIZE));
+        params.put("page", String.valueOf(page.getCurrentPage()));
+
+        String respStr = doGet(GET_GOODS_LIST, params);
         if (respStr == null) {
             return page;
         }
@@ -82,7 +87,7 @@ public class JingtuituiItemCouponOuterApiService extends AbstractCouponOuterApiS
             itemCoupon.setItemDescription(jingtuituiItem.getGoods_content());
             itemCoupon.setCategory(NumberUtils.toLong(jingtuituiItem.getGoods_type(), 0));
             itemCoupon.setCommissionRate(jingtuituiItem.getCommission());
-            itemCoupon.setPlatform(LogBean.PLATFORM_JINGTUITUI);
+            itemCoupon.setPlatform(ApiLog.PLATFORM_JINGTUITUI);
             result.add(itemCoupon);
         }
 

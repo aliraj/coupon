@@ -247,4 +247,32 @@ public class ItemCoupon implements Serializable {
     public void setPlatform(String platform) {
         this.platform = platform;
     }
+
+    @Override
+    public String toString() {
+        return "ItemCoupon{" +
+                "numIid=" + numIid +
+                ", outerId='" + outerId + '\'' +
+                ", title='" + title + '\'' +
+                ", smallImages='" + smallImages + '\'' +
+                ", shopTitle='" + shopTitle + '\'' +
+                ", userType=" + userType +
+                ", zkFinalPrice='" + zkFinalPrice + '\'' +
+                ", nick='" + nick + '\'' +
+                ", sellerId=" + sellerId +
+                ", volume=" + volume +
+                ", pictUrl='" + pictUrl + '\'' +
+                ", itemUrl='" + itemUrl + '\'' +
+                ", couponTotalCount=" + couponTotalCount +
+                ", commissionRate='" + commissionRate + '\'' +
+                ", couponInfo='" + couponInfo + '\'' +
+                ", category=" + category +
+                ", couponRemainCount=" + couponRemainCount +
+                ", couponStartTime='" + couponStartTime + '\'' +
+                ", couponEndTime='" + couponEndTime + '\'' +
+                ", couponClickUrl='" + couponClickUrl + '\'' +
+                ", itemDescription='" + itemDescription + '\'' +
+                ", platform='" + platform + '\'' +
+                '}';
+    }
 }
