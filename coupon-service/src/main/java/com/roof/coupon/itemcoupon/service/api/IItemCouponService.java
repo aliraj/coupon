@@ -55,7 +55,9 @@ public interface IItemCouponService {
 	 * 按对象中的非空属性作为条件，进行查询列表
 	 */
 	public abstract List<ItemCouponVo> selectForList(ItemCoupon itemCoupon);
-	
+
+	void saveOrUpdateByOuterId(List<ItemCoupon> itemCoupons);
+
 	/**
 	 * 按对象中的非空属性作为条件，进行分页查询
 	 */

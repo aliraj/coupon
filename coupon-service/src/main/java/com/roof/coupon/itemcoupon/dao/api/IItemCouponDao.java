@@ -7,4 +7,6 @@ import com.roof.coupon.itemcoupon.entity.ItemCoupon;
 
 public interface IItemCouponDao extends IDaoSupport {
 	Page page(Page page, ItemCoupon itemCoupon);
+
+    int updateByOuterId(ItemCoupon itemCoupon);
 }
