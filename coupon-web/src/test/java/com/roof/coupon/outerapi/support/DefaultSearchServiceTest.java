@@ -1,7 +1,7 @@
 package com.roof.coupon.outerapi.support;
 
+import com.roof.coupon.apilog.entity.ApiLog;
 import com.roof.coupon.outerapi.SearchService;
-import com.roof.coupon.outerapi.log.LogBean;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.roof.roof.dataaccess.api.Page;
@@ -26,7 +26,7 @@ public class DefaultSearchServiceTest {
         Page page = new Page();
         page.setLimit(10L);
         page.setCurrentPage(1L);
-        page = searchService.doSearch("休闲", page, new String[]{LogBean.PLATFORM_JINGTUITUI, LogBean.PLATFORM_TAOKE});
+        page = searchService.doSearch("休闲", page, new String[]{ApiLog.PLATFORM_JINGTUITUI, ApiLog.PLATFORM_TAOKE});
         for (Object o : page.getDataList()) {
             System.out.println(o);
         }

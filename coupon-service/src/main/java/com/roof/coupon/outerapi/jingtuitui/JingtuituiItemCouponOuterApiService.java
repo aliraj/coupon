@@ -32,11 +32,37 @@ public class JingtuituiItemCouponOuterApiService extends AbstractCouponOuterApiS
     private static final int DEFAULT_PAGE_SIZE = 100;
     private String jingtuituiAppId;
     private String jingtuituiAppKey;
+    private Map<String, String> categoryMap;
 
     @Override
     public void afterPropertiesSet() throws Exception {
         this.jingtuituiAppId = CustomizedPropertyPlaceholderConfigurer.getContextProperty("jingtuitui.appid").toString();
         this.jingtuituiAppKey = CustomizedPropertyPlaceholderConfigurer.getContextProperty("jingtuitui.appkey").toString();
+        categoryMap = new HashMap<>();
+        /**
+         *       1 : 女装
+         *       2 : 男装
+         *       3 : 内衣配饰
+         *       4 : 母婴玩具
+         *       5 : 美妆个护
+         *       6 : 食品保健
+         *       7 : 居家生活
+         *       8 : 鞋品箱包
+         *       9 : 运动户外
+         *       10 : 文体车品
+         *       11 : 数码家电
+         */
+        categoryMap.put("1", "1");
+        categoryMap.put("2", "2");
+        categoryMap.put("3", "3");
+        categoryMap.put("4", "4");
+        categoryMap.put("5", "5");
+        categoryMap.put("6", "8");
+        categoryMap.put("7", "6");
+        categoryMap.put("8", "7");
+        categoryMap.put("9", "11");
+        categoryMap.put("10", "9");
+        categoryMap.put("11", "10");
     }
 
     @Override
@@ -85,7 +111,7 @@ public class JingtuituiItemCouponOuterApiService extends AbstractCouponOuterApiS
             itemCoupon.setCouponInfo(jingtuituiItem.getDiscount_price());
             itemCoupon.setCouponClickUrl(jingtuituiItem.getDiscount_link());
             itemCoupon.setItemDescription(jingtuituiItem.getGoods_content());
-            itemCoupon.setCategory(NumberUtils.toLong(jingtuituiItem.getGoods_type(), 0));
+            itemCoupon.setCategory(NumberUtils.toLong(categoryMap.get(jingtuituiItem.getGoods_type()), 0));
             itemCoupon.setCommissionRate(jingtuituiItem.getCommission());
             itemCoupon.setPlatform(ApiLog.PLATFORM_JINGTUITUI);
             result.add(itemCoupon);

@@ -2,12 +2,12 @@
 <Configuration status="info">
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT">
-            <PatternLayout  charset="utf-8" pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+            <PatternLayout charset="utf-8" pattern="[%d{yyyy-MM-dd HH:mm:ss.SSS}] %-4level %logger %msg%n"/>
         </Console>
     </Appenders>
     <Loggers>
         <Logger name="org.springframework.beans.factory" level="error"/>
-        <Logger name="org.springframework.test.context.junit4.SpringJUnit4ClassRunner" level="info" />
+        <Logger name="org.springframework.test.context.junit4.SpringJUnit4ClassRunner" level="info"/>
         <Root level="info">
             <AppenderRef ref="Console"/>
         </Root>
