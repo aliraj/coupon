@@ -3,6 +3,7 @@ package com.roof.coupon.customer.service.api;
 import java.util.List;
 import java.io.Serializable;
 
+import com.roof.coupon.wechat.service.impl.WeChatDto;
 import org.roof.roof.dataaccess.api.Page;
 import com.roof.coupon.customer.entity.Customer;
 import com.roof.coupon.customer.entity.CustomerVo;
@@ -58,5 +59,17 @@ public interface ICustomerService {
 	 * 按对象中的非空属性作为条件，进行分页查询
 	 */
 	public abstract Page page(Page page, Customer customer);
+
+	/**
+	 * 存在openid就更新，没有就保存
+	 * @param customer
+	 * @return
+	 */
+	public WeChatDto saveOrUpdate(CustomerVo customer);
+
+	/**
+	 * 根据openId查询
+	 */
+	public CustomerVo loadByOpenid(String openId);
 
 }

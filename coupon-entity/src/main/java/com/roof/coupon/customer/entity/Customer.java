@@ -49,6 +49,9 @@ public class Customer implements Serializable {
 	@ApiModelProperty(value = "对于用户表的主键")
 	protected Long userId;// 对于用户表的主键
 
+	@ApiModelProperty(value = "二进制用户类型")
+	protected Long binaryType;// 二进制用户类型
+
 	public Customer() {
 		super();
 	}
@@ -162,5 +165,13 @@ public class Customer implements Serializable {
 	}
 	public void setUserId(Long userId) {
 		this.userId = userId;
+	}
+
+	public Long getBinaryType() {
+		return binaryType;
+	}
+
+	public void setBinaryType(Long binaryType) {
+		this.binaryType = binaryType;
 	}
 }

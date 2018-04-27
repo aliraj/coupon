@@ -12,6 +12,9 @@ public class CustomerVo extends Customer {
 	private List<CustomerVo> customerList;
 	private List<String> area;
 
+	private String code;
+
+
 	public CustomerVo() {
 		super();
 	}
@@ -35,5 +38,13 @@ public class CustomerVo extends Customer {
 
 	public void setArea(List<String> area) {
 		this.area = area;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
 	}
 }
