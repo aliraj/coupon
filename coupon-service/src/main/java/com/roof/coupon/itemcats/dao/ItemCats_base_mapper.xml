@@ -23,7 +23,7 @@
 			and parent_cid = #{parentCid}
 		</if>
 		<if test="name != null and name != ''">
-			and name = #{name}
+			and name like CONCAT('%',#{name},'%')
 		</if>
 		<if test="isParent != null and isParent != ''">
 			and is_parent = #{isParent}
