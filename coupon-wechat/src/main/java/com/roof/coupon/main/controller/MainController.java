@@ -3,6 +3,7 @@ package com.roof.coupon.main.controller;
 import com.roof.coupon.banner.entity.Banner;
 import com.roof.coupon.banner.entity.BannerVo;
 import com.roof.coupon.banner.service.api.IBannerService;
+import com.roof.coupon.core.http.HttpClientUtil;
 import com.roof.coupon.itemcats.entity.ItemCats;
 import com.roof.coupon.itemcats.entity.ItemCatsVo;
 import com.roof.coupon.itemcats.service.api.IItemCatsService;
@@ -63,6 +64,7 @@ public class MainController {
         page = itemCouponService.page(page, itemCouponVo);
         return new Result(Result.SUCCESS, page);
     }
+
 
 
 }

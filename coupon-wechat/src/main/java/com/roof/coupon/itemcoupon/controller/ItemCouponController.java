@@ -64,6 +64,13 @@ public class ItemCouponController {
         return new Result(Result.SUCCESS, itemCouponVo);
     }
 
+    @ApiOperation(value = "根据ID加载优惠券的淘口令")
+    @RequestMapping(value = "itemcoupon/{id}/taobao", method = {RequestMethod.GET})
+    public @ResponseBody
+    Result<ItemCouponVo> taobao(@PathVariable Long id) {
+        return new Result(Result.SUCCESS, "","复制框内整段文字，￥kkah0HwWsssYvE￥，打开「手淘」即可「领取优惠券」并购买");
+    }
+
 
     @Autowired(required = true)
     public void setItemCouponService(

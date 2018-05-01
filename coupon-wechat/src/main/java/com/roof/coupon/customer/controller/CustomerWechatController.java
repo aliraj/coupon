@@ -32,20 +32,9 @@ public class CustomerWechatController {
 
 
 
-	@RequestMapping(value = "customer", method = {RequestMethod.POST})
-	public @ResponseBody Result create(@RequestBody CustomerVo customer) {
-		if (customer != null) {
-			if(StringUtils.isEmpty(customer.getCode())){
-				return new Result(Result.FAIL,"code不能为空");
-			}
-			WeChatDto weChatDto =  customerService.saveOrUpdate(customer);
-			return new Result(Result.SUCCESS,weChatDto.getUserId());
-		} else {
-			return new Result(Result.FAIL,"数据传输失败!");
-		}
-	}
 
-	@RequestMapping(value = "v2/customer", method = {RequestMethod.POST})
+
+	@RequestMapping(value = "customer", method = {RequestMethod.POST})
 	public @ResponseBody Result create_v2(@RequestBody CustomerVo customer) {
 		if (customer != null) {
 			if(StringUtils.isEmpty(customer.getCode())){
