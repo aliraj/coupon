@@ -1,5 +1,6 @@
 package com.roof.coupon.itemcoupon.controller;
 
+import com.roof.coupon.DefaultUseableEnum;
 import com.roof.coupon.accesslog.entity.AccessLog;
 import com.roof.coupon.accesslog.service.api.IAccessLogService;
 import com.roof.coupon.itemcoupon.entity.ItemCoupon;
@@ -46,8 +47,9 @@ public class ItemCouponController {
     @ApiOperation(value = "获得商品优惠券分页列表")
     @RequestMapping(value = "itemcoupon/list", method = {RequestMethod.POST})
     public @ResponseBody
-    Result<Page> list(ItemCoupon itemCoupon, HttpServletRequest request) {
+    Result<Page> list(ItemCouponVo itemCoupon, HttpServletRequest request) {
         Page page = PageUtils.createPage(request);
+        itemCoupon.setUseable(DefaultUseableEnum.usable.getCode());
         page = itemCouponService.page(page, itemCoupon);
         return new Result(Result.SUCCESS, page);
     }

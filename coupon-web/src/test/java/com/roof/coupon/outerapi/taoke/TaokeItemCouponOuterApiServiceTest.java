@@ -1,6 +1,7 @@
 package com.roof.coupon.outerapi.taoke;
 
 import com.roof.coupon.itemcoupon.entity.ItemCoupon;
+import com.roof.coupon.itemcoupon.entity.ItemCouponVo;
 import com.roof.coupon.itemcoupon.service.api.IItemCouponService;
 import com.roof.coupon.itemcoupon.service.impl.ItemCouponService;
 import com.roof.coupon.itemcoupon.service.impl.TaobaoCommond;
@@ -44,8 +45,8 @@ public class TaokeItemCouponOuterApiServiceTest {
 
     @Test
     public void getCode() throws IOException {
-        ItemCoupon itemCoupon = itemCouponService.load(new ItemCoupon(30930L));
-        taobaoCommond.getCode(itemCoupon);
+        //ItemCoupon itemCoupon = itemCouponService.load(new ItemCoupon(30930L));
+        //taobaoCommond.getCode(itemCoupon);
     }
 
     @Autowired

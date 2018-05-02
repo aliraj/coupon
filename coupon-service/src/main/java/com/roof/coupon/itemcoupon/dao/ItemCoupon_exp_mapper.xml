@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.roof.coupon.itemcoupon.dao">
     <sql id="columnsAs">
-		t1.num_iid as numIid, t1.outer_id, t1.title as title, t1.small_images as smallImages, t1.shop_title as shopTitle, t1.user_type as userType, t1.zk_final_price as zkFinalPrice, t1.nick as nick, t1.seller_id as sellerId, t1.volume as volume, t1.pict_url as pictUrl, t1.item_url as itemUrl, t1.coupon_total_count as couponTotalCount, t1.commission_rate as commissionRate, t1.coupon_info as couponInfo, t1.category as category, t1.coupon_remain_count as couponRemainCount, t1.coupon_start_time as couponStartTime, t1.coupon_end_time as couponEndTime, t1.coupon_click_url as couponClickUrl, t1.item_description as itemDescription, t1.platform as platform ,t1.item_description as itemDescription
+		t1.num_iid as numIid, t1.outer_id, t1.title as title, t1.small_images as smallImages, t1.shop_title as shopTitle, t1.user_type as userType, t1.zk_final_price as zkFinalPrice, t1.nick as nick, t1.seller_id as sellerId, t1.volume as volume, t1.pict_url as pictUrl, t1.item_url as itemUrl, t1.coupon_total_count as couponTotalCount, t1.commission_rate as commissionRate, t1.coupon_info as couponInfo, t1.category as category, t1.coupon_remain_count as couponRemainCount, t1.coupon_start_time as couponStartTime, t1.coupon_end_time as couponEndTime, t1.coupon_click_url as couponClickUrl, t1.item_description as itemDescription, t1.platform as platform ,t1.item_description as itemDescription,t1.useable as useable
 	</sql>
 
     <select id="selectItemCouponPage" resultType="com.roof.coupon.itemcoupon.entity.ItemCouponVo">
