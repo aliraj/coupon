@@ -62,6 +62,7 @@ public class ItemCoupon implements Serializable {
     @ApiModelProperty(value = "所属平台")
     protected String platform; //所属平台
     protected String taobaoCommand;//淘口令
+    protected Integer useable;// 逻辑删除
 
 
     public ItemCoupon() {
@@ -256,6 +257,14 @@ public class ItemCoupon implements Serializable {
 
     public void setTaobaoCommand(String taobaoCommand) {
         this.taobaoCommand = taobaoCommand;
+    }
+
+    public Integer getUseable() {
+        return useable;
+    }
+
+    public void setUseable(Integer useable) {
+        this.useable = useable;
     }
 
     @Override

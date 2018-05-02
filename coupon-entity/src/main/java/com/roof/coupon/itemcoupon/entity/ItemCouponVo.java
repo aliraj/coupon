@@ -13,6 +13,13 @@ public class ItemCouponVo extends ItemCoupon {
 
     private Long customerId;
 
+    private String couponInfoPrefix;
+    private String volumePrefix;
+    private String couponTotalCountPrefix;
+    private String commissionRatePrefix;
+    private String couponRemainCountPrefix;
+
+
     public ItemCouponVo() {
         super();
     }
@@ -42,5 +49,46 @@ public class ItemCouponVo extends ItemCoupon {
 
     public void setCustomerId(Long customerId) {
         this.customerId = customerId;
+    }
+
+
+    public String getCouponInfoPrefix() {
+        return couponInfoPrefix;
+    }
+
+    public void setCouponInfoPrefix(String couponInfoPrefix) {
+        this.couponInfoPrefix = couponInfoPrefix;
+    }
+
+    public String getVolumePrefix() {
+        return volumePrefix;
+    }
+
+    public void setVolumePrefix(String volumePrefix) {
+        this.volumePrefix = volumePrefix;
+    }
+
+    public String getCouponTotalCountPrefix() {
+        return couponTotalCountPrefix;
+    }
+
+    public void setCouponTotalCountPrefix(String couponTotalCountPrefix) {
+        this.couponTotalCountPrefix = couponTotalCountPrefix;
+    }
+
+    public String getCommissionRatePrefix() {
+        return commissionRatePrefix;
+    }
+
+    public void setCommissionRatePrefix(String commissionRatePrefix) {
+        this.commissionRatePrefix = commissionRatePrefix;
+    }
+
+    public String getCouponRemainCountPrefix() {
+        return couponRemainCountPrefix;
+    }
+
+    public void setCouponRemainCountPrefix(String couponRemainCountPrefix) {
+        this.couponRemainCountPrefix = couponRemainCountPrefix;
     }
 }

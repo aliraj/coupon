@@ -4,15 +4,15 @@
 <mapper namespace="com.roof.coupon.itemcoupon.dao">
 
     <sql id="columns">
-		num_iid, outer_id, platform, title, small_images, shop_title, user_type, zk_final_price, nick, seller_id, volume, pict_url, item_url, coupon_total_count, commission_rate, coupon_info, category, coupon_remain_count, coupon_start_time, coupon_end_time, coupon_click_url, item_description, taobao_command
+		num_iid, outer_id, platform, title, small_images, shop_title, user_type, zk_final_price, nick, seller_id, volume, pict_url, item_url, coupon_total_count, commission_rate, coupon_info, category, coupon_remain_count, coupon_start_time, coupon_end_time, coupon_click_url, item_description, taobao_command,useable
 	</sql>
 
     <sql id="columns_as">
-		num_iid as numIid , outer_id as outerId, platform as platform, title as title , small_images as smallImages , shop_title as shopTitle , user_type as userType , zk_final_price as zkFinalPrice , nick as nick , seller_id as sellerId , volume as volume , pict_url as pictUrl , item_url as itemUrl , coupon_total_count as couponTotalCount , commission_rate as commissionRate , coupon_info as couponInfo , category as category , coupon_remain_count as couponRemainCount , coupon_start_time as couponStartTime , coupon_end_time as couponEndTime , coupon_click_url as couponClickUrl , item_description as itemDescription,taobao_command AS taobaoCommand
+		num_iid as numIid , outer_id as outerId, platform as platform, title as title , small_images as smallImages , shop_title as shopTitle , user_type as userType , zk_final_price as zkFinalPrice , nick as nick , seller_id as sellerId , volume as volume , pict_url as pictUrl , item_url as itemUrl , coupon_total_count as couponTotalCount , commission_rate as commissionRate , coupon_info as couponInfo , category as category , coupon_remain_count as couponRemainCount , coupon_start_time as couponStartTime , coupon_end_time as couponEndTime , coupon_click_url as couponClickUrl , item_description as itemDescription,taobao_command AS taobaoCommand, useable as useable
 	</sql>
 
     <sql id="vals">
-		#{numIid},#{outerId}, #{platform{}, #{title}, #{smallImages}, #{shopTitle}, #{userType}, #{zkFinalPrice}, #{nick}, #{sellerId}, #{volume}, #{pictUrl}, #{itemUrl}, #{couponTotalCount}, #{commissionRate}, #{couponInfo}, #{category}, #{couponRemainCount}, #{couponStartTime}, #{couponEndTime}, #{couponClickUrl}, #{itemDescription},#{taobaoCommand}
+		#{numIid},#{outerId}, #{platform{}, #{title}, #{smallImages}, #{shopTitle}, #{userType}, #{zkFinalPrice}, #{nick}, #{sellerId}, #{volume}, #{pictUrl}, #{itemUrl}, #{couponTotalCount}, #{commissionRate}, #{couponInfo}, #{category}, #{couponRemainCount}, #{couponStartTime}, #{couponEndTime}, #{couponClickUrl}, #{itemDescription},#{taobaoCommand},#{useable}
 	</sql>
     <sql id="conds">
         <if test="numIid != null">
@@ -46,7 +46,14 @@
             and seller_id = #{sellerId}
         </if>
         <if test="volume != null">
-            and volume = #{volume}
+            <choose>
+                <when test="volumePrefix != null and volumePrefix != ''">
+                    and volume ${volumePrefix} #{volume}
+                </when>
+                <otherwise>
+                    and volume = #{volume}
+                </otherwise>
+            </choose>
         </if>
         <if test="pictUrl != null and pictUrl != ''">
             and pict_url = #{pictUrl}
@@ -55,19 +62,47 @@
             and item_url = #{itemUrl}
         </if>
         <if test="couponTotalCount != null">
-            and coupon_total_count = #{couponTotalCount}
+            <choose>
+                <when test="couponTotalCountPrefix != null and couponTotalCountPrefix != ''">
+                    and coupon_total_count ${couponTotalCountPrefix} #{couponTotalCount}
+                </when>
+                <otherwise>
+                    and coupon_total_count = #{couponTotalCount}
+                </otherwise>
+            </choose>
         </if>
         <if test="commissionRate != null and commissionRate != ''">
-            and commission_rate = #{commissionRate}
+            <choose>
+                <when test="commissionRatePrefix != null and commissionRatePrefix != ''">
+                    and commission_rate ${commissionRatePrefix} #{commissionRate}
+                </when>
+                <otherwise>
+                    and commission_rate = #{commissionRate}
+                </otherwise>
+            </choose>
         </if>
         <if test="couponInfo != null and couponInfo != ''">
-            and coupon_info = #{couponInfo}
+            <choose>
+                <when test="couponInfoPrefix != null and couponInfoPrefix != ''">
+                    and coupon_info + 0 ${couponInfoPrefix} #{couponInfo}
+                </when>
+                <otherwise>
+                    and coupon_info = #{couponInfo}
+                </otherwise>
+            </choose>
         </if>
         <if test="category != null">
             and category = #{category}
         </if>
         <if test="couponRemainCount != null">
-            and coupon_remain_count = #{couponRemainCount}
+            <choose>
+                <when test="couponRemainCountPrefix != null and couponRemainCountPrefix != ''">
+                    and coupon_remain_count ${couponRemainCountPrefix} #{couponRemainCount}
+                </when>
+                <otherwise>
+                    and coupon_remain_count = #{couponRemainCount}
+                </otherwise>
+            </choose>
         </if>
         <if test="couponStartTime != null and couponStartTime != ''">
             <![CDATA[
@@ -87,6 +122,9 @@
         </if>
         <if test="taobaoCommand != null and taobaoCommand != ''">
             and taobao_command = #{taobaoCommand}
+        </if>
+        <if test="useable != null">
+            and useable = #{useable}
         </if>
     </sql>
 
@@ -135,7 +173,8 @@
             coupon_end_time=#{couponEndTime},
             coupon_click_url=#{couponClickUrl},
             item_description=#{itemDescription},
-            taobao_command = #{taobaoCommand}
+            taobao_command = #{taobaoCommand},
+            useable = #{useable}
         </set>
         where num_iid=#{numIid}
     </update>
@@ -210,7 +249,10 @@
                 item_description=#{itemDescription},
             </if>
             <if test="taobaoCommand != null and taobaoCommand != ''">
-                taobao_command = #{taobaoCommand}
+                taobao_command = #{taobaoCommand},
+            </if>
+            <if test="useable != null">
+                useable = #{useable}
             </if>
         </set>
         where num_iid=#{numIid}
@@ -259,7 +301,7 @@
                 item_url=#{itemUrl},
             </if>
             <if test="couponTotalCount != null">
-                coupon_total_count=#{couponTotalCount},
+              coupon_total_count=#{couponTotalCount},
             </if>
             <if test="commissionRate != null and commissionRate != ''">
                 commission_rate=#{commissionRate},
@@ -286,7 +328,10 @@
                 item_description=#{itemDescription},
             </if>
             <if test="taobaoCommand != null and taobaoCommand != ''">
-                taobao_command = #{taobaoCommand}
+                taobao_command = #{taobaoCommand},
+            </if>
+            <if test="useable != null">
+                useable = #{useable}
             </if>
         </set>
         where 1=1

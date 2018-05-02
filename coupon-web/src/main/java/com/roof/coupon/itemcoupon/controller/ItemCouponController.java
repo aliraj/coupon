@@ -5,6 +5,7 @@ import java.util.Map;
 import com.google.common.collect.Maps;
 import javax.servlet.http.HttpServletRequest;
 
+import com.roof.coupon.DefaultUseableEnum;
 import com.roof.coupon.itemcats.entity.ItemCats;
 import com.roof.coupon.itemcats.entity.ItemCatsVo;
 import com.roof.coupon.itemcats.service.api.IItemCatsService;
@@ -41,7 +42,7 @@ public class ItemCouponController {
 
 	@ApiOperation(value = "获得商品优惠券分页列表")
     @RequestMapping(value = "itemcoupon", method = {RequestMethod.GET})
-    public @ResponseBody Result<Page> list(ItemCoupon itemCoupon, HttpServletRequest request) {
+    public @ResponseBody Result<Page> list(ItemCouponVo itemCoupon, HttpServletRequest request) {
 	    Page page = PageUtils.createPage(request);
 	    page = itemCouponService.page(page, itemCoupon);
 	    return new Result(Result.SUCCESS, page);
@@ -71,6 +72,32 @@ public class ItemCouponController {
 	public @ResponseBody Result update(@PathVariable Long id ,@RequestBody ItemCoupon itemCoupon) {
 		if (id != null && itemCoupon != null) {
 			itemCoupon.setNumIid(id);
+			itemCouponService.updateIgnoreNull(itemCoupon);
+			return new Result("保存成功!");
+		} else {
+			return new Result(Result.FAIL,"数据传输失败!");
+		}
+	}
+
+	@ApiOperation(value = "根据ID上架")
+	@RequestMapping(value = "itemcoupon/{id}/up", method = {RequestMethod.PUT})
+	public @ResponseBody Result up(@PathVariable Long id ) {
+		if (id != null ) {
+			ItemCoupon itemCoupon = new ItemCoupon(id);
+			itemCoupon.setUseable(DefaultUseableEnum.usable.getCode());
+			itemCouponService.updateIgnoreNull(itemCoupon);
+			return new Result("保存成功!");
+		} else {
+			return new Result(Result.FAIL,"数据传输失败!");
+		}
+	}
+
+	@ApiOperation(value = "根据ID上架")
+	@RequestMapping(value = "itemcoupon/{id}/down", method = {RequestMethod.PUT})
+	public @ResponseBody Result down(@PathVariable Long id ) {
+		if (id != null ) {
+			ItemCoupon itemCoupon = new ItemCoupon(id);
+			itemCoupon.setUseable(DefaultUseableEnum.unusable.getCode());
 			itemCouponService.updateIgnoreNull(itemCoupon);
 			return new Result("保存成功!");
 		} else {
