@@ -5,6 +5,7 @@ import com.roof.coupon.accesslog.service.api.IAccessLogService;
 import com.roof.coupon.itemcoupon.entity.ItemCoupon;
 import com.roof.coupon.itemcoupon.entity.ItemCouponVo;
 import com.roof.coupon.itemcoupon.service.api.IItemCouponService;
+import com.roof.coupon.itemcoupon.service.impl.TaobaoCommond;
 import com.roof.coupon.searchconfig.entity.SearchConfig;
 import com.roof.coupon.searchconfig.service.api.ISearchConfigService;
 import io.swagger.annotations.Api;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.Date;
 
 /**
@@ -34,6 +36,9 @@ public class ItemCouponController {
 
     @Autowired
     private IAccessLogService accessLogService;
+
+    @Autowired
+    private TaobaoCommond taobaoCommond;
 
     @Autowired
     private ISearchConfigService searchConfigService;
@@ -68,14 +73,20 @@ public class ItemCouponController {
     @RequestMapping(value = "itemcoupon/{id}/taobao", method = {RequestMethod.GET})
     public @ResponseBody
     Result<ItemCouponVo> taobao(@PathVariable Long id) {
-        return new Result(Result.SUCCESS, "","复制框内整段文字，￥kkah0HwWsssYvE￥，打开「手淘」即可「领取优惠券」并购买");
+        ItemCoupon itemCoupon = itemCouponService.load(new ItemCoupon(id));
+        try {
+            String model = taobaoCommond.getCode(itemCoupon);
+            String result = "复制框内整段文字，{model}，打开「手淘」即可「领取优惠券」并购买".replace("{{model}}",model);
+            return new Result(Result.SUCCESS, "",result);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new Result(Result.ERROR,"获取验证码错误");
+        }
     }
 
 
     @Autowired(required = true)
-    public void setItemCouponService(
-            @Qualifier("itemCouponService") IItemCouponService itemCouponService
-    ) {
+    public void setItemCouponService(@Qualifier("itemCouponService") IItemCouponService itemCouponService) {
         this.itemCouponService = itemCouponService;
     }
 

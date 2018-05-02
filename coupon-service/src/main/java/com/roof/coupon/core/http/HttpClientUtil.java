@@ -182,6 +182,34 @@ public class HttpClientUtil {
         }
     }
 
+    public static String post(String url, Map<String, Object> params) throws IOException {
+        HttpPost httppost = new HttpPost(url);
+        config(httppost);
+        setPostParams(httppost, params);
+        HttpClientContext context = HttpClientContext.create();
+
+        CloseableHttpResponse response = null;
+        try {
+            response = getHttpClient(url).execute(httppost,
+                    context);
+            HttpEntity entity = response.getEntity();
+            String result = EntityUtils.toString(entity, "utf-8");
+            EntityUtils.consume(entity);
+            context.getCookieStore().getCookies();
+            return result;
+        } catch (Exception e) {
+//          e.printStackTrace();
+            throw e;
+        } finally {
+            try {
+                if (response != null)
+                    response.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     /**
      * GET请求URL获取内容
      *
@@ -191,14 +219,15 @@ public class HttpClientUtil {
      * @author SHANHY
      * @create 2015年12月18日
      */
-    public static String post(String url, Map<String, Object> params) throws IOException {
+    public static String post(String url, Map<String, Object> params,HttpClientContext context) throws IOException {
         HttpPost httppost = new HttpPost(url);
         config(httppost);
         setPostParams(httppost, params);
+
         CloseableHttpResponse response = null;
         try {
             response = getHttpClient(url).execute(httppost,
-                    HttpClientContext.create());
+                    context);
             HttpEntity entity = response.getEntity();
             String result = EntityUtils.toString(entity, "utf-8");
             EntityUtils.consume(entity);
@@ -294,6 +323,29 @@ public class HttpClientUtil {
         }
     }
 
+    public static String get(String url ,HttpClientContext clientContext) {
+        HttpGet httpget = new HttpGet(url);
+        config(httpget);
+        CloseableHttpResponse response = null;
+        try {
+            response = getHttpClient(url).execute(httpget,clientContext);
+            HttpEntity entity = response.getEntity();
+            String result = EntityUtils.toString(entity, "GBK");
+            EntityUtils.consume(entity);
+            return result;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (response != null)
+                    response.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
     /**
      * GET请求URL获取内容
      *
@@ -310,7 +362,7 @@ public class HttpClientUtil {
             response = getHttpClient(url).execute(httpget,
                     HttpClientContext.create());
             HttpEntity entity = response.getEntity();
-            String result = EntityUtils.toString(entity, "utf-8");
+            String result = EntityUtils.toString(entity, "GBK");
             EntityUtils.consume(entity);
             return result;
         } catch (IOException e) {

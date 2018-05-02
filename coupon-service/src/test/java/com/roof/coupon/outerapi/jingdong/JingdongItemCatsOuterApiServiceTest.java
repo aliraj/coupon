@@ -9,12 +9,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.io.IOException;
+
 /**
  * @author liuxin
  * @since 2018/4/1
  */
+
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration({"classpath*:spring.xml"})
+@ContextConfiguration({"classpath*:spring-service.xml"})
 public class JingdongItemCatsOuterApiServiceTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(JingdongItemCatsOuterApiServiceTest.class);
     @Autowired
@@ -25,6 +28,8 @@ public class JingdongItemCatsOuterApiServiceTest {
         LOGGER.error("s");
         itemCatsOuterApiService.queryByParent(0);
     }
+
+
 
 
 

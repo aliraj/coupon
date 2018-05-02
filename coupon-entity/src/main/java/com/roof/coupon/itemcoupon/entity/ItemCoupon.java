@@ -61,6 +61,8 @@ public class ItemCoupon implements Serializable {
     protected String itemDescription;// 宝贝描述（推荐理由）
     @ApiModelProperty(value = "所属平台")
     protected String platform; //所属平台
+    protected String taobaoCommand;//淘口令
+
 
     public ItemCoupon() {
         super();
@@ -246,6 +248,14 @@ public class ItemCoupon implements Serializable {
 
     public void setPlatform(String platform) {
         this.platform = platform;
+    }
+
+    public String getTaobaoCommand() {
+        return taobaoCommand;
+    }
+
+    public void setTaobaoCommand(String taobaoCommand) {
+        this.taobaoCommand = taobaoCommand;
     }
 
     @Override
