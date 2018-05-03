@@ -25,7 +25,7 @@
             and platform = #{platform}
         </if>
         <if test="title != null and title != ''">
-            and title like contact('%', #{title},'%')
+            and title like CONCAT('%', #{title},'%')
         </if>
         <if test="smallImages != null and smallImages != ''">
             and small_images = #{smallImages}
