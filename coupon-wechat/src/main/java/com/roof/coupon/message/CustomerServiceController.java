@@ -108,7 +108,7 @@ public class CustomerServiceController {
     }
 
     @ApiOperation(value = "发送链接消息")
-    @RequestMapping(value = "send/textmessage")
+    @RequestMapping(value = "send/linkmessage")
     public @ResponseBody
     Result sendLinkMessage(String touser, String title, String description, String url, String thumb_url, HttpServletRequest request) throws NoSuchAlgorithmException {
         String rs = receiveMessageService.sendLinkMessage(touser, title, description, url, thumb_url);
