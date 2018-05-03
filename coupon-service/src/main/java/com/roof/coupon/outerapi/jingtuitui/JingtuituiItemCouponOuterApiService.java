@@ -114,6 +114,7 @@ public class JingtuituiItemCouponOuterApiService extends AbstractCouponOuterApiS
             itemCoupon.setCategory(NumberUtils.toLong(categoryMap.get(jingtuituiItem.getGoods_type()), 0));
             itemCoupon.setCommissionRate(jingtuituiItem.getCommission());
             itemCoupon.setPlatform(ApiLog.PLATFORM_JINGTUITUI);
+            itemCoupon.setUseable(1);
             result.add(itemCoupon);
         }
 

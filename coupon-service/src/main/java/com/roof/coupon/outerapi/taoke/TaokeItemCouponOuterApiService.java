@@ -125,6 +125,7 @@ public class TaokeItemCouponOuterApiService extends AbstractCouponOuterApiServic
             itemCoupon.setCouponClickUrl(taokeItem.getQuan_link());
             itemCoupon.setItemDescription(taokeItem.getQuan_guid_content());
             itemCoupon.setPlatform(ApiLog.PLATFORM_JINGTUITUI);
+            itemCoupon.setUseable(1);
             result.add(itemCoupon);
         }
         return result;
