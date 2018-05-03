@@ -54,6 +54,13 @@ public class ItemCouponController {
         return new Result(Result.SUCCESS, page);
     }
 
+    /**
+     *
+     * @param type 参数为 jingtuitui 或者 taoke
+     * @param name 查询的关键字
+     * @param request
+     * @return
+     */
     @ApiOperation(value = "获得远程商品优惠券分页列表")
     @RequestMapping(value = "itemcoupon/list", method = {RequestMethod.POST})
     public @ResponseBody
