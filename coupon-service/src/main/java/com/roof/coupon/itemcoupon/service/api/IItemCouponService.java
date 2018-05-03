@@ -9,6 +9,8 @@ import com.roof.coupon.itemcoupon.entity.ItemCouponVo;
 
 public interface IItemCouponService {
 
+	public abstract Page pageConnect(Page page,String type,String name);
+
 	/**
 	 * 将对象保存，返回该条记录的操作数量，保存成功之后，将主键填充到参数对象中
 	 */

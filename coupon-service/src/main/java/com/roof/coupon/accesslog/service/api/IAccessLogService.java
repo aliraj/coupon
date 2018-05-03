@@ -59,4 +59,6 @@ public interface IAccessLogService {
 	 */
 	public abstract Page page(Page page, AccessLog accessLog);
 
+	public abstract Page pageWechat(Page page, AccessLog accessLog);
+
 }
