@@ -44,13 +44,22 @@ public class ItemCouponController {
     @Autowired
     private ISearchConfigService searchConfigService;
 
-    @ApiOperation(value = "获得商品优惠券分页列表")
+    @ApiOperation(value = "获得本地商品优惠券分页列表")
     @RequestMapping(value = "itemcoupon/list", method = {RequestMethod.POST})
     public @ResponseBody
     Result<Page> list(ItemCouponVo itemCoupon, HttpServletRequest request) {
         Page page = PageUtils.createPage(request);
         itemCoupon.setUseable(DefaultUseableEnum.usable.getCode());
         page = itemCouponService.page(page, itemCoupon);
+        return new Result(Result.SUCCESS, page);
+    }
+
+    @ApiOperation(value = "获得远程商品优惠券分页列表")
+    @RequestMapping(value = "itemcoupon/list", method = {RequestMethod.POST})
+    public @ResponseBody
+    Result<Page> listConnect(String type,String name, HttpServletRequest request) {
+        Page page = PageUtils.createPage(request);
+        page = itemCouponService.pageConnect(page, type,name);
         return new Result(Result.SUCCESS, page);
     }
 
