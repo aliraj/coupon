@@ -71,7 +71,6 @@ public class ItemCouponController {
         return new Result(Result.SUCCESS, page);
     }
 
-
     @ApiOperation(value = "根据ID加载商品优惠券")
     @RequestMapping(value = "itemcoupon/{id}/{customerId}", method = {RequestMethod.GET})
     public @ResponseBody
@@ -87,7 +86,7 @@ public class ItemCouponController {
         ItemCoupon itemCoupon = itemCouponService.load(new ItemCoupon(id));
         try {
             String model = taobaoCommond.getCode(itemCoupon);
-            String result = "复制框内整段文字，{model}，打开「手淘」即可「领取优惠券」并购买".replace("{{model}}",model);
+            String result = "复制框内整段文字，{model}，打开「手淘」即可「领取优惠券」并购买".replace("{model}",model);
             return new Result(Result.SUCCESS, "",result);
         } catch (IOException e) {
             e.printStackTrace();
