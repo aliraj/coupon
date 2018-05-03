@@ -55,24 +55,24 @@ public class ItemCouponController {
     }
 
     /**
-     *
-     * @param type 参数为 jingtuitui 或者 taoke
-     * @param name 查询的关键字
+     * @param type    参数为 jingtuitui 或者 taoke
+     * @param name    查询的关键字
      * @param request
      * @return
      */
     @ApiOperation(value = "获得远程商品优惠券分页列表")
-    @RequestMapping(value = "itemcoupon/list", method = {RequestMethod.POST})
+    @RequestMapping(value = "itemcoupon/listconnect", method = {RequestMethod.POST})
     public @ResponseBody
-    Result<Page> listConnect(String type,String name, HttpServletRequest request) {
+    Result<Page> listConnect(String type, String name, HttpServletRequest request) {
         Page page = PageUtils.createPage(request);
-        page = itemCouponService.pageConnect(page, type,name);
+        page = itemCouponService.pageConnect(page, type, name);
         return new Result(Result.SUCCESS, page);
     }
 
     @ApiOperation(value = "获得搜索配置分页列表")
     @RequestMapping(value = "searchconfig", method = {RequestMethod.GET})
-    public @ResponseBody Result<Page> list(SearchConfig searchConfig, HttpServletRequest request) {
+    public @ResponseBody
+    Result<Page> list(SearchConfig searchConfig, HttpServletRequest request) {
         Page page = PageUtils.createPage(request);
         page = searchConfigService.page(page, searchConfig);
         return new Result(Result.SUCCESS, page);
@@ -93,11 +93,11 @@ public class ItemCouponController {
         ItemCoupon itemCoupon = itemCouponService.load(new ItemCoupon(id));
         try {
             String model = taobaoCommond.getCode(itemCoupon);
-            String result = "复制框内整段文字，{model}，打开「手淘」即可「领取优惠券」并购买".replace("{model}",model);
-            return new Result(Result.SUCCESS, "",result);
+            String result = "复制框内整段文字，{model}，打开「手淘」即可「领取优惠券」并购买".replace("{model}", model);
+            return new Result(Result.SUCCESS, "", result);
         } catch (IOException e) {
             e.printStackTrace();
-            return new Result(Result.ERROR,"获取验证码错误");
+            return new Result(Result.ERROR, "获取验证码错误");
         }
     }
 
