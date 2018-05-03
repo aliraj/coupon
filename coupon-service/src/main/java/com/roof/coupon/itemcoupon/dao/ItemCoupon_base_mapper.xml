@@ -12,7 +12,7 @@
 	</sql>
 
     <sql id="vals">
-		#{numIid},#{outerId}, #{platform{}, #{title}, #{smallImages}, #{shopTitle}, #{userType}, #{zkFinalPrice}, #{nick}, #{sellerId}, #{volume}, #{pictUrl}, #{itemUrl}, #{couponTotalCount}, #{commissionRate}, #{couponInfo}, #{category}, #{couponRemainCount}, #{couponStartTime}, #{couponEndTime}, #{couponClickUrl}, #{itemDescription},#{taobaoCommand},#{useable}
+		#{numIid},#{outerId}, #{platform}, #{title}, #{smallImages}, #{shopTitle}, #{userType}, #{zkFinalPrice}, #{nick}, #{sellerId}, #{volume}, #{pictUrl}, #{itemUrl}, #{couponTotalCount}, #{commissionRate}, #{couponInfo}, #{category}, #{couponRemainCount}, #{couponStartTime}, #{couponEndTime}, #{couponClickUrl}, #{itemDescription},#{taobaoCommand},#{useable}
 	</sql>
     <sql id="conds">
         <if test="numIid != null">
