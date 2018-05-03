@@ -62,18 +62,6 @@ public class ItemCouponController {
         return new Result(Result.SUCCESS, page);
     }
 
-
-    @ApiOperation(value = "根据ID加载商品")
-    @RequestMapping(value = "itemcoupon/{id}", method = {RequestMethod.GET})
-    public @ResponseBody
-    Result<ItemCouponVo> loadItemCoupon(@PathVariable Long id) {
-        ItemCoupon itemCoupon = new ItemCoupon();
-        itemCoupon.setNumIid(id);
-        ItemCouponVo itemCouponVo =  itemCouponService.selectForObject(itemCoupon);
-        return new Result(Result.SUCCESS, itemCouponVo);
-    }
-
-
     @ApiOperation(value = "根据ID加载商品优惠券")
     @RequestMapping(value = "itemcoupon/{id}/{customerId}", method = {RequestMethod.GET})
     public @ResponseBody

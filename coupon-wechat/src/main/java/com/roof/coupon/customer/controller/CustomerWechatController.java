@@ -21,7 +21,7 @@ import java.util.concurrent.Executors;
 
 @Api(value = "customer", description = "顾客管理")
 @Controller
-@RequestMapping("fpa/wechat")
+@RequestMapping("coupon/wechat")
 public class CustomerWechatController {
 	private ICustomerService customerService;
 
