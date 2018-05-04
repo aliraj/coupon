@@ -86,6 +86,14 @@ public class ItemCouponController {
         return new Result(Result.SUCCESS, itemCouponVo);
     }
 
+    @ApiOperation(value = "根据ID加载远程商品优惠券")
+    @RequestMapping(value = "itemcoupon/connect/{outerId}/{customerId}", method = {RequestMethod.GET})
+    public @ResponseBody
+    Result<ItemCoupon> loadConnect(@PathVariable String outerId, @PathVariable Long customerId) {
+        ItemCoupon itemCoupon = itemCouponService.loadConnect(new ItemCouponVo(outerId, customerId));
+        return new Result(Result.SUCCESS, itemCoupon);
+    }
+
     @ApiOperation(value = "根据ID加载优惠券的淘口令")
     @RequestMapping(value = "itemcoupon/{id}/taobao", method = {RequestMethod.GET})
     public @ResponseBody

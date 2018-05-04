@@ -3,7 +3,9 @@ package com.roof.coupon.itemcoupon.service.impl;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
+import com.alibaba.fastjson.JSON;
 import com.roof.coupon.outerapi.ItemCouponOuterApiService;
 import org.roof.roof.dataaccess.api.Page;
 import com.roof.coupon.itemcoupon.dao.api.IItemCouponDao;
@@ -14,8 +16,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.redis.core.BoundValueOperations;
+import org.springframework.data.redis.core.RedisKeyValueTemplate;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 @Service
 public class ItemCouponService implements IItemCouponService {
@@ -25,6 +31,9 @@ public class ItemCouponService implements IItemCouponService {
     private ItemCouponOuterApiService jingtuituiItemCouponOuterApiService;
 
     private ItemCouponOuterApiService taokeItemCouponOuterApiService;
+
+    @Autowired
+    private RedisTemplate<String, String> redisTemplate;
 
     @Override
     public ItemCouponVo wechatLoad(ItemCouponVo itemCoupon) {
@@ -37,6 +46,16 @@ public class ItemCouponService implements IItemCouponService {
     }
 
     @Override
+    public ItemCoupon loadConnect(ItemCouponVo itemCouponVo) {
+        BoundValueOperations<String, String> operations = redisTemplate.boundValueOps(itemCouponVo.getOuterId());
+        String json = operations.get();
+        if (!StringUtils.isEmpty(json)) {
+            return JSON.parseObject(json, ItemCoupon.class);
+        }
+        return new ItemCoupon();
+    }
+
+    @Override
     public Page pageConnect(Page page, String type, String name) {
         Assert.notNull(type, "查询平台不能为空");
         Assert.notNull(name, "查询关键字不能为空");
@@ -45,6 +64,15 @@ public class ItemCouponService implements IItemCouponService {
                 page = jingtuituiItemCouponOuterApiService.search(name, page);
             } else if (type.equals("taoke")) {
                 page = taokeItemCouponOuterApiService.search(name, page);
+            }
+            //缓存数据
+            if (page.getDataList() != null && page.getDataList().size() != 0) {
+                List<ItemCoupon> list = (List<ItemCoupon>) page.getDataList();
+                for (ItemCoupon itemCoupon :
+                        list) {
+                    BoundValueOperations<String, String> operations = redisTemplate.boundValueOps(itemCoupon.getOuterId());
+                    operations.set(JSON.toJSONString(itemCoupon), 7, TimeUnit.DAYS);
+                }
             }
         } catch (IOException e) {
             logger.error(e.getMessage(), e);

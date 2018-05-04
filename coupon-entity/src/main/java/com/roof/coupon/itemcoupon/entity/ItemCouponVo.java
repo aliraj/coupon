@@ -35,6 +35,12 @@ public class ItemCouponVo extends ItemCoupon {
         this.customerId = customerId;
     }
 
+    public ItemCouponVo(String outerId, Long customerId) {
+        super();
+        this.outerId = outerId;
+        this.customerId = customerId;
+    }
+
     public List<ItemCouponVo> getItemCouponList() {
         return itemCouponList;
     }
