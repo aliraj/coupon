@@ -41,4 +41,12 @@ public class AccessLogController {
     }
 
 
+    @ApiOperation(value = "根据ID删除用户行为日志")
+    @RequestMapping(value = "accesslog/del/{id}", method = {RequestMethod.GET})
+    public @ResponseBody Result delete(@PathVariable Long id ) {
+        // TODO 有些关键数据是不能物理删除的，需要改为逻辑删除
+        accessLogService.delete(new AccessLog(id));
+        return new Result("删除成功!");
+    }
+
 }
