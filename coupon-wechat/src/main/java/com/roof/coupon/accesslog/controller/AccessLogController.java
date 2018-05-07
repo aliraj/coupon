@@ -21,22 +21,32 @@ import java.util.Map;
 @Controller
 @RequestMapping("/coupon/wechat")
 public class AccessLogController {
-	private IAccessLogService accessLogService;
+    private IAccessLogService accessLogService;
 
 
-	@ApiOperation(value = "获得某个用户行为日志分页列表")
+    @ApiOperation(value = "获得某个用户行为日志分页列表")
     @RequestMapping(value = "accesslog", method = {RequestMethod.GET})
-    public @ResponseBody Result<Page> list(AccessLog accessLog, HttpServletRequest request) {
-	    Page page = PageUtils.createPage(request);
-	    page = accessLogService.page(page, accessLog);
-	    return new Result(Result.SUCCESS, page);
-	}
+    public @ResponseBody
+    Result<Page> list(AccessLog accessLog, HttpServletRequest request) {
+        Page page = PageUtils.createPage(request);
+        page = accessLogService.pageWechat(page, accessLog);
+        return new Result(Result.SUCCESS, page);
+    }
 
-	@Autowired(required = true)
-	public void setAccessLogService(
-			@Qualifier("accessLogService") IAccessLogService accessLogService) {
-		this.accessLogService = accessLogService;
-	}
+    @Autowired(required = true)
+    public void setAccessLogService(
+            @Qualifier("accessLogService") IAccessLogService accessLogService
+    ) {
+        this.accessLogService = accessLogService;
+    }
 
+
+    @ApiOperation(value = "根据ID删除用户行为日志")
+    @RequestMapping(value = "accesslog/del/{id}", method = {RequestMethod.GET})
+    public @ResponseBody Result delete(@PathVariable Long id ) {
+        // TODO 有些关键数据是不能物理删除的，需要改为逻辑删除
+        accessLogService.delete(new AccessLog(id));
+        return new Result("删除成功!");
+    }
 
 }

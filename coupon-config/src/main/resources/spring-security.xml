@@ -22,6 +22,7 @@
 
     <http pattern="/coupon/pic/**" security="none"/>
     <!--activiti-->
+	<http pattern="/customer/**" security="none"/>
 
 
 
