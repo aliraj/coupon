@@ -54,7 +54,7 @@ public class ReceiveMessageServiceImpl implements ReceiveMessageService {
         if (MsgType.equals(ReceiveMessageServiceImpl.MSG_TYPE_EVENT)) {
             logger.info("消息类型为：事件" + MsgType);
             EventReceiveMessage receiveMessage = JSON.parseObject(msg, EventReceiveMessage.class);
-            this.sendTextMessage(receiveMessage.getFromUserName(), "欢迎来到🧡❤️的世界里");
+//            this.sendTextMessage(receiveMessage.getFromUserName(), "欢迎来到🧡❤️的世界里");
 
         } else if (MsgType.equals(ReceiveMessageServiceImpl.MSG_TYPE_IMAGE)) {
             logger.info("消息类型为：图片" + MsgType);
