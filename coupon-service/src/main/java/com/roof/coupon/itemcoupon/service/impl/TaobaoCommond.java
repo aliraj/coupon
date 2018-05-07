@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.http.client.protocol.HttpClientContext;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.HashMap;
@@ -18,6 +19,14 @@ import java.util.concurrent.*;
 
 @Service
 public class TaobaoCommond implements InitializingBean {
+
+
+    @Value("${user_name}")
+    private String user_name;
+    @Value("${user_pass}")
+    private String user_pass;
+    @Value("${pid}")
+    private String pid;
 
     private ExecutorService executorService = Executors.newSingleThreadExecutor();
 
@@ -36,8 +45,8 @@ public class TaobaoCommond implements InitializingBean {
 
     private synchronized void login(HttpClientContext context) throws IOException {
         Map<String,Object> map = new HashMap<>();
-        map.put("user_name","ttyhq");
-        map.put("user_pass","19830730@Yhq");
+        map.put("user_name",user_name);
+        map.put("user_pass",user_pass);
         String s = HttpClientUtil.post("http://tool.chaozhi.hk/api/wx/wx-login.php",map,context);
 
     }
@@ -51,7 +60,7 @@ public class TaobaoCommond implements InitializingBean {
         String item = coupon.getItemUrl();
         String[] strings1= item.split("id=");
         String itemId =strings1[1];
-        map2.put("url",url);
+        map2.put("url",url+"&pid="+pid);
 
 
         map2.put("text","");
@@ -61,7 +70,7 @@ public class TaobaoCommond implements InitializingBean {
         map2.put("shareID","");
         map2.put("itemId",itemId);
         map2.put("couponId",couponId);
-        map2.put("pid","mm_130742186_43300995_312914639");
+        map2.put("pid",pid);
         map2.put("tklEnc","false");
         String ss = HttpClientUtil.post("http://tool.chaozhi.hk/api/tb/GetTkl_free_v3.php",map2,context);
 

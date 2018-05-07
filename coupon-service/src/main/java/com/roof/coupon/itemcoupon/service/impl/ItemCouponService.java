@@ -2,6 +2,12 @@ package com.roof.coupon.itemcoupon.service.impl;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 import org.roof.roof.dataaccess.api.Page;
 import com.roof.coupon.itemcoupon.dao.api.IItemCouponDao;
 import com.roof.coupon.itemcoupon.entity.ItemCoupon;
@@ -15,9 +21,29 @@ import org.springframework.stereotype.Service;
 public class ItemCouponService implements IItemCouponService {
 	private IItemCouponDao itemCouponDao;
 
-    @Override
+	private LoadingCache<Long, ItemCouponVo> cache = CacheBuilder.newBuilder().maximumSize(1000L)
+			.expireAfterAccess(10, TimeUnit.MINUTES)//设置时间对象没有被读/写访问则对象从内存中删除
+			.expireAfterWrite(10, TimeUnit.MINUTES)//设置时间对象没有被写访问则对象从内存中删除
+			.recordStats()
+			.build(new CacheLoader<Long, ItemCouponVo>() {
+				@Override
+				public ItemCouponVo load(Long key) {
+					//从SQL或者NoSql 获取对象
+					return (ItemCouponVo) itemCouponDao.reload(new ItemCoupon(key));
+				}
+			});
+
+
+
+
+	@Override
     public ItemCouponVo wechatLoad(ItemCouponVo itemCoupon) {
-        return (ItemCouponVo) itemCouponDao.reload(new ItemCoupon(itemCoupon.getNumIid()));
+		try {
+			return cache.get(itemCoupon.getNumIid());
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+			return (ItemCouponVo) itemCouponDao.reload(new ItemCoupon(itemCoupon.getNumIid()));
+		}
     }
 
     @Override
