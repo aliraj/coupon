@@ -45,6 +45,7 @@ public class MainController {
     public @ResponseBody
     Result menu(HttpServletRequest httpServletRequest) {
         List<ItemCatsVo> itemCatsVos = itemCatsService.selectForList(new ItemCats());
+
         return new Result(Result.SUCCESS, itemCatsVos);
     }
 
@@ -62,9 +63,17 @@ public class MainController {
     Result<Page> list(ItemCouponVo itemCouponVo, HttpServletRequest request) {
         Page page = PageUtils.createPage(request);
         page = itemCouponService.page(page, itemCouponVo);
+//        List<ItemCouponVo> list = (List<ItemCouponVo>) page.getDataList();
+//        for (ItemCouponVo vo : list
+//                ) {
+//            if (vo.getCouponClickUrl().indexOf("jd.com") > -1) {
+//                vo.setPlatform("jingtuitui");
+//            } else {
+//                vo.setPlatform("taoke");
+//            }
+//        }
         return new Result(Result.SUCCESS, page);
     }
-
 
 
 }

@@ -109,7 +109,7 @@ public class TaokeItemCouponOuterApiService extends AbstractCouponOuterApiServic
         List<ItemCoupon> result = new ArrayList<>(taokeItems.size());
         for (TaokeItem taokeItem : taokeItems) {
             ItemCoupon itemCoupon = new ItemCoupon();
-            itemCoupon.setOuterId(taokeItem.getId());
+            itemCoupon.setOuterId(taokeItem.getGoods_id());
             itemCoupon.setTitle(taokeItem.getGoods_name());
 //            itemCoupon.setSmallImages(taokeItem.getPic());
             itemCoupon.setZkFinalPrice(taokeItem.getPrice_after_coupons());
@@ -124,7 +124,7 @@ public class TaokeItemCouponOuterApiService extends AbstractCouponOuterApiServic
             itemCoupon.setCouponEndTime(taokeItem.getQuan_expired_time());
             itemCoupon.setCouponClickUrl(taokeItem.getQuan_link());
             itemCoupon.setItemDescription(taokeItem.getQuan_guid_content());
-            itemCoupon.setPlatform(ApiLog.PLATFORM_JINGTUITUI);
+            itemCoupon.setPlatform(ApiLog.PLATFORM_TAOKE);
             itemCoupon.setUseable(1);
             result.add(itemCoupon);
         }

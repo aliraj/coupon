@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author liht
@@ -34,6 +35,8 @@ import java.util.Date;
 @RequestMapping("coupon/wechat")
 public class ItemCouponController {
     private IItemCouponService itemCouponService;
+
+    public static final String[] platforms = new String[]{"jd.com"};
 
     @Autowired
     private IAccessLogService accessLogService;
@@ -51,8 +54,18 @@ public class ItemCouponController {
         Page page = PageUtils.createPage(request);
         itemCoupon.setUseable(DefaultUseableEnum.usable.getCode());
         //TODO
-        itemCoupon.setPlatform("taoke");
+//        itemCoupon.setPlatform("taoke");
         page = itemCouponService.page(page, itemCoupon);
+//        List<ItemCouponVo> list = (List<ItemCouponVo>) page.getDataList();
+//        for (ItemCouponVo vo : list
+//                ) {
+//            if (vo.getCouponClickUrl().indexOf("jd.com") > -1) {
+//                vo.setPlatform("jingtuitui");
+//            } else {
+//                vo.setPlatform("taoke");
+//            }
+//        }
+//        page.setDataList(list);
         return new Result(Result.SUCCESS, page);
     }
 
@@ -67,8 +80,18 @@ public class ItemCouponController {
     public @ResponseBody
     Result<Page> listConnect(String type, String name, HttpServletRequest request) {
         Page page = PageUtils.createPage(request);
-        type = "taoke";
+//        type = "taoke";
         page = itemCouponService.pageConnect(page, type, name);
+//        List<ItemCoupon> list = (List<ItemCoupon>) page.getDataList();
+//        for (ItemCoupon entity : list
+//                ) {
+//            if (entity.getCouponClickUrl().indexOf("jd.com") > -1) {
+//                entity.setPlatform("jingtuitui");
+//            } else {
+//                entity.setPlatform("taoke");
+//            }
+//        }
+//        page.setDataList(list);
         return new Result(Result.SUCCESS, page);
     }
 
@@ -86,6 +109,11 @@ public class ItemCouponController {
     public @ResponseBody
     Result<ItemCouponVo> load(@PathVariable Long id, @PathVariable Long customerId) {
         ItemCouponVo itemCouponVo = itemCouponService.wechatLoad(new ItemCouponVo(id, customerId));
+//        if (itemCouponVo.getCouponClickUrl().indexOf("jd.com") > -1) {
+//            itemCouponVo.setPlatform("jingtuitui");
+//        } else {
+//            itemCouponVo.setPlatform("taoke");
+//        }
         return new Result(Result.SUCCESS, itemCouponVo);
     }
 
@@ -102,6 +130,25 @@ public class ItemCouponController {
     public @ResponseBody
     Result<ItemCouponVo> taobao(@PathVariable Long id) {
         ItemCoupon itemCoupon = itemCouponService.load(new ItemCoupon(id));
+        try {
+            String model = taobaoCommond.getCode(itemCoupon);
+            String result = "复制框内整段文字，{model}，打开「手淘」即可「领取优惠券」并购买".replace("{model}", model);
+            return new Result(Result.SUCCESS, "", result);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new Result(Result.ERROR, "获取验证码错误");
+        }
+    }
+
+    @ApiOperation(value = "根据outid 远程加载优惠券的淘口令")
+    @RequestMapping(value = "itemcoupon/connect/{outerId}/taobao", method = {RequestMethod.GET})
+    public @ResponseBody
+    Result<ItemCouponVo> taobaoconnect(@PathVariable String outerId) {
+        ItemCouponVo vo = new ItemCouponVo();
+        vo.setOuterId(outerId);
+        ItemCoupon itemCoupon = itemCouponService.loadConnect(vo);
+
+//        ItemCoupon itemCoupon = itemCouponService.load(new ItemCoupon(id));
         try {
             String model = taobaoCommond.getCode(itemCoupon);
             String result = "复制框内整段文字，{model}，打开「手淘」即可「领取优惠券」并购买".replace("{model}", model);
