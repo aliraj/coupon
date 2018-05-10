@@ -18,7 +18,7 @@
         c_item_coupon
         where 1=1
         <include refid="conds"/>
-        order by num_iid desc
+        order by commission_rate desc
         limit #{firstrownum}, #{limit}) t2
         where t1.num_iid = t2.num_iid
     </select>

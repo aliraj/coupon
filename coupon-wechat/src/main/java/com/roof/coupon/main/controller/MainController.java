@@ -62,6 +62,7 @@ public class MainController {
     public @ResponseBody
     Result<Page> list(ItemCouponVo itemCouponVo, HttpServletRequest request) {
         Page page = PageUtils.createPage(request);
+        itemCouponVo.setPlatform("taoke");
         page = itemCouponService.page(page, itemCouponVo);
 //        List<ItemCouponVo> list = (List<ItemCouponVo>) page.getDataList();
 //        for (ItemCouponVo vo : list

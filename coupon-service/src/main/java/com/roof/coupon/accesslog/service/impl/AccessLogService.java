@@ -1,6 +1,7 @@
 package com.roof.coupon.accesslog.service.impl;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.alibaba.fastjson.JSON;
@@ -77,8 +78,9 @@ public class AccessLogService implements IAccessLogService {
 
     @Override
     public Page pageWechat(Page page, AccessLog accessLog) {
-        page = accessLogDao.page(page, accessLog);
+        page = accessLogDao.pageGroupby(page, accessLog);
         List<AccessLogVo> list = (List<AccessLogVo>) page.getDataList();
+        List<AccessLogVo> outlist = new ArrayList<AccessLogVo>();
         for (AccessLogVo vo :
                 list) {
             if (vo.getParams() != null) {
@@ -89,11 +91,15 @@ public class AccessLogService implements IAccessLogService {
                     ItemCoupon itemCoupon = new ItemCoupon(numIid);
                     ItemCouponVo itemCouponVo = itemCouponService.load(itemCoupon);
                     vo.setItemCouponVo(itemCouponVo);
+                    if (vo.getItemCouponVo() != null) {
+                        outlist.add(vo);
+                    }
                 } else if (JSON.parse(vo.getParams()) instanceof JSONObject) {
 
                 }
             }
         }
+        page.setDataList(outlist);
         return page;
     }
 

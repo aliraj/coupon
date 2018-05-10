@@ -53,19 +53,8 @@ public class ItemCouponController {
     Result<Page> list(ItemCouponVo itemCoupon, HttpServletRequest request) {
         Page page = PageUtils.createPage(request);
         itemCoupon.setUseable(DefaultUseableEnum.usable.getCode());
-        //TODO
-//        itemCoupon.setPlatform("taoke");
+        itemCoupon.setPlatform("taoke");
         page = itemCouponService.page(page, itemCoupon);
-//        List<ItemCouponVo> list = (List<ItemCouponVo>) page.getDataList();
-//        for (ItemCouponVo vo : list
-//                ) {
-//            if (vo.getCouponClickUrl().indexOf("jd.com") > -1) {
-//                vo.setPlatform("jingtuitui");
-//            } else {
-//                vo.setPlatform("taoke");
-//            }
-//        }
-//        page.setDataList(list);
         return new Result(Result.SUCCESS, page);
     }
 
@@ -80,7 +69,7 @@ public class ItemCouponController {
     public @ResponseBody
     Result<Page> listConnect(String type, String name, HttpServletRequest request) {
         Page page = PageUtils.createPage(request);
-//        type = "taoke";
+        type = "taoke";
         page = itemCouponService.pageConnect(page, type, name);
 //        List<ItemCoupon> list = (List<ItemCoupon>) page.getDataList();
 //        for (ItemCoupon entity : list
