@@ -53,7 +53,7 @@ public class ItemCouponController {
     Result<Page> list(ItemCouponVo itemCoupon, HttpServletRequest request) {
         Page page = PageUtils.createPage(request);
         itemCoupon.setUseable(DefaultUseableEnum.usable.getCode());
-        itemCoupon.setPlatform("taoke");
+//        itemCoupon.setPlatform("jingtuitui");
         page = itemCouponService.page(page, itemCoupon);
         return new Result(Result.SUCCESS, page);
     }
@@ -69,7 +69,7 @@ public class ItemCouponController {
     public @ResponseBody
     Result<Page> listConnect(String type, String name, HttpServletRequest request) {
         Page page = PageUtils.createPage(request);
-        type = "taoke";
+//        type = "jingtuitui";
         page = itemCouponService.pageConnect(page, type, name);
 //        List<ItemCoupon> list = (List<ItemCoupon>) page.getDataList();
 //        for (ItemCoupon entity : list

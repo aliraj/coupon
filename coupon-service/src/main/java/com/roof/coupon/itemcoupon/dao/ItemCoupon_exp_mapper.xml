@@ -17,6 +17,7 @@
         from
         c_item_coupon
         where 1=1
+        and coupon_end_time > NOW()
         <include refid="conds"/>
         order by commission_rate desc
         limit #{firstrownum}, #{limit}) t2
@@ -28,6 +29,7 @@
         count(num_iid)
         from c_item_coupon
         where 1=1
+        and coupon_end_time > NOW()
         <include refid="conds"/>
     </select>
 

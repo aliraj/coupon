@@ -95,6 +95,7 @@ public class CustomerServiceController {
     public @ResponseBody
     String receiverMessage(@RequestBody String json, HttpServletRequest request) throws NoSuchAlgorithmException {
         logger.info("json:" + json);
+        System.out.println(json);
         receiveMessageService.receiveMessage(json);
         return "SUCCESS";
     }

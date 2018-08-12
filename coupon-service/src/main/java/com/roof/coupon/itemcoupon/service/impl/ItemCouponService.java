@@ -2,6 +2,7 @@ package com.roof.coupon.itemcoupon.service.impl;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -40,29 +41,27 @@ public class ItemCouponService implements IItemCouponService {
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
 
-	private LoadingCache<Long, ItemCouponVo> cache = CacheBuilder.newBuilder().maximumSize(1000L)
-			.expireAfterAccess(10, TimeUnit.MINUTES)//设置时间对象没有被读/写访问则对象从内存中删除
-			.expireAfterWrite(10, TimeUnit.MINUTES)//设置时间对象没有被写访问则对象从内存中删除
-			.recordStats()
-			.build(new CacheLoader<Long, ItemCouponVo>() {
-				@Override
-				public ItemCouponVo load(Long key) {
-					//从SQL或者NoSql 获取对象
-					return (ItemCouponVo) itemCouponDao.reload(new ItemCoupon(key));
-				}
-			});
+    private LoadingCache<Long, ItemCouponVo> cache = CacheBuilder.newBuilder().maximumSize(1000L)
+            .expireAfterAccess(10, TimeUnit.MINUTES)//设置时间对象没有被读/写访问则对象从内存中删除
+            .expireAfterWrite(10, TimeUnit.MINUTES)//设置时间对象没有被写访问则对象从内存中删除
+            .recordStats()
+            .build(new CacheLoader<Long, ItemCouponVo>() {
+                @Override
+                public ItemCouponVo load(Long key) {
+                    //从SQL或者NoSql 获取对象
+                    return (ItemCouponVo) itemCouponDao.reload(new ItemCoupon(key));
+                }
+            });
 
 
-
-
-	@Override
+    @Override
     public ItemCouponVo wechatLoad(ItemCouponVo itemCoupon) {
-		try {
-			return cache.get(itemCoupon.getNumIid());
-		} catch (ExecutionException e) {
-			e.printStackTrace();
-			return (ItemCouponVo) itemCouponDao.reload(new ItemCoupon(itemCoupon.getNumIid()));
-		}
+        try {
+            return cache.get(itemCoupon.getNumIid());
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+            return (ItemCouponVo) itemCouponDao.reload(new ItemCoupon(itemCoupon.getNumIid()));
+        }
     }
 
     @Override
@@ -87,24 +86,73 @@ public class ItemCouponService implements IItemCouponService {
         try {
             if (type.equals("jingtuitui")) {
                 page = jingtuituiItemCouponOuterApiService.search(name, page);
-            } else if (type.equals("taoke")) {
-                page = taokeItemCouponOuterApiService.search(name, page);
-            }
-            //缓存数据
-            if (page.getDataList() != null && page.getDataList().size() != 0) {
-                List<ItemCoupon> list = (List<ItemCoupon>) page.getDataList();
-                for (ItemCoupon itemCoupon :
-                        list) {
-                    BoundValueOperations<String, String> operations = redisTemplate.boundValueOps(itemCoupon.getOuterId());
-                    operations.set(JSON.toJSONString(itemCoupon), 7, TimeUnit.DAYS);
+                //缓存数据
+                if (page.getDataList() != null && page.getDataList().size() != 0) {
+                    List<ItemCoupon> list = (List<ItemCoupon>) page.getDataList();
+                    for (ItemCoupon itemCoupon :
+                            list) {
+                        BoundValueOperations<String, String> operations = redisTemplate.boundValueOps(itemCoupon.getOuterId());
+                        operations.set(JSON.toJSONString(itemCoupon), 7, TimeUnit.DAYS);
+                    }
                 }
+            } else if (type.equals("taoke")) {
+//                page = taokeItemCouponOuterApiService.search(name, page);
+//                //缓存数据
+//                if (page.getDataList() != null && page.getDataList().size() != 0) {
+//                    List<ItemCoupon> list = (List<ItemCoupon>) page.getDataList();
+//                    List<ItemCoupon> out_list = new ArrayList<ItemCoupon>();
+//
+//                    for (ItemCoupon itemCoupon :
+//                            list) {
+//                        if (itemCoupon.getCouponClickUrl() != null) {
+//                            BoundValueOperations<String, String> operations = redisTemplate.boundValueOps(itemCoupon.getOuterId());
+//                            operations.set(JSON.toJSONString(itemCoupon), 7, TimeUnit.DAYS);
+//                            out_list.add(itemCoupon);
+//                        }
+//                    }
+//                    page.setDataList(out_list);
+//                }
+                this.findTaobaoPage(name, page, 10);
+
             }
+
         } catch (IOException e) {
             logger.error(e.getMessage(), e);
         }
         return page;
     }
 
+
+    private Page findTaobaoPage(String name, Page page, int times) throws IOException {
+        if (times > 0) {
+            page = taokeItemCouponOuterApiService.search(name, page);
+            if (page.getDataList() != null && page.getDataList().size() != 0) {
+                List<ItemCoupon> list = (List<ItemCoupon>) page.getDataList();
+                List<ItemCoupon> out_list = new ArrayList<ItemCoupon>();
+
+                for (ItemCoupon itemCoupon :
+                        list) {
+                    if (itemCoupon.getCouponClickUrl() != null) {
+                        BoundValueOperations<String, String> operations = redisTemplate.boundValueOps(itemCoupon.getOuterId());
+                        operations.set(JSON.toJSONString(itemCoupon), 7, TimeUnit.DAYS);
+                        out_list.add(itemCoupon);
+                    }
+                }
+                times = times - 1;
+                if (out_list.size() > 0) {
+                    page.setDataList(out_list);
+                } else {
+                    page.setCurrentPage(page.getCurrentPage() + 1);
+                    page = this.findTaobaoPage(name, page, times);
+
+                }
+
+            } else {
+                return page;
+            }
+        }
+        return page;
+    }
 
     public void delete(ItemCoupon itemCoupon) {
         itemCouponDao.delete(itemCoupon);

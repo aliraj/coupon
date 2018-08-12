@@ -51,6 +51,7 @@ public class ReceiveMessageServiceImpl implements ReceiveMessageService {
         JSONObject obj = JSON.parseObject(msg);
         String MsgType = obj.getString("MsgType");
         logger.info("收到消息内容为：" + msg);
+        System.out.println("收到消息内容为：" + msg);
         if (MsgType.equals(ReceiveMessageServiceImpl.MSG_TYPE_EVENT)) {
             logger.info("消息类型为：事件" + MsgType);
             EventReceiveMessage receiveMessage = JSON.parseObject(msg, EventReceiveMessage.class);
@@ -68,7 +69,7 @@ public class ReceiveMessageServiceImpl implements ReceiveMessageService {
             TextReceiveMessage text = JSON.parseObject(msg, TextReceiveMessage.class);
             if (text.getContent() != null && text.getContent().indexOf(":") > -1 && text.getContent().split(":")[0].equals("jd")) {
                 logger.info("该消息为京东消息" + text.getContent());
-
+                System.out.println("该消息为京东消息" + text.getContent());
                 ItemCoupon itemCoupon = new ItemCoupon();
                 itemCoupon.setPlatform("jingtuitui");
                 itemCoupon.setOuterId(text.getContent().split(":")[1]);
@@ -122,6 +123,7 @@ public class ReceiveMessageServiceImpl implements ReceiveMessageService {
     public String sendLinkMessage(String touser, String title, String description, String url, String thumb_url) {
         String result = "";
         logger.info("开始发送链接消息");
+        System.out.println("开始发送链接消息");
         SendMessage sendMessage = new SendMessage();
         LinkMessageBody linkMessageBody = new LinkMessageBody();
 
@@ -135,7 +137,11 @@ public class ReceiveMessageServiceImpl implements ReceiveMessageService {
 
         try {
             logger.info("发送的link的消息格式为：" + JSON.toJSONString(sendMessage));
+            System.out.println("发送的link的消息格式为：" + JSON.toJSONString(sendMessage));
+
             String rs = HttpClientUtil.post(messageservice_sendurl + "?access_token=" + weChatHander.getAccess_token(), JSON.toJSONString(sendMessage));
+            System.out.println("微信返回结果为：" + rs);
+
             logger.info("微信返回结果为：" + rs);
             result = rs;
         } catch (Exception e) {
